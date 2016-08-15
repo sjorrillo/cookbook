@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
-import ReceipeListRow from './ReceipeListRow';
+import RecipeListRow from './RecipeListRow';
 
-const ReceipeList = (props) => {
+const RecipeList = (props) => {
   return (
     <table className="table">
       <thead>
@@ -14,16 +14,16 @@ const ReceipeList = (props) => {
       </tr>
       </thead>
       <tbody>
-      {props.receipes.map(receipe =>
-        <ReceipeListRow key={receipe.id} receipe={receipe}/>
+      {props.recipes.map(recipe =>
+        <RecipeListRow key={recipe.id} recipe={recipe}/>
       )}
       </tbody>
     </table>
   );
 };
 
-ReceipeList.propTypes = {
-  receipes: PropTypes.array.isRequired
+RecipeList.propTypes = {
+  recipes: PropTypes.array.isRequired
 };
 
-export default ReceipeList;
+export default RecipeList;

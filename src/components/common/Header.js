@@ -1,10 +1,11 @@
 import React, {PropTypes} from 'react';
 import { Link, IndexLink } from 'react-router';
+import LoadingDots from './controls/LoadingDots';
 
 class Header extends React.Component {
 
-  constructor(state, context) {
-    super(state, context);
+  constructor(props, context) {
+    super(props, context);
   }
 
   activeLink(route) {
@@ -17,9 +18,10 @@ class Header extends React.Component {
       <nav className="red accent-3">
         <div className="nav-wrapper">
           <IndexLink to="/" className="brand-logo">CookBook</IndexLink>
+          {this.props.loading && <div className=""><LoadingDots interval={100} dots={20}/></div>}
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li className={this.activeLink('/')}><IndexLink to="/">Home</IndexLink></li>
-            <li className={this.activeLink('/receipes')}><Link to="/receipes">Receipes</Link></li>
+            <li className={this.activeLink('/recipes')}><Link to="/recipes">Recipes</Link></li>
             <li className={this.activeLink('/about')}><Link to="/about">About</Link></li>
           </ul>
         </div>
@@ -27,6 +29,10 @@ class Header extends React.Component {
     );
   }
 }
+
+Header.propTypes = {
+  loading: PropTypes.bool.isRequired
+};
 
 Header.contextTypes = {
   router: PropTypes.object.isRequired

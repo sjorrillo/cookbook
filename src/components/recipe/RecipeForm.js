@@ -2,21 +2,21 @@ import React, {PropTypes} from 'react';
 import TextInput from '../common/controls/TextInput';
 import SelectInput from '../common/controls/SelectInput';
 
-const ReceipeForm = ({receipe, allAuthors, onSave, onChange, saving, errors}) => {
+const RecipeForm = ({recipe, allAuthors, onSave, onChange, saving, errors}) => {
   return (
      <form>
-      <h3>Manage Receipe</h3>
+      <h3>Manage recipe</h3>
       <TextInput
         name="title"
         label="Title"
-        value={receipe.title}
+        value={recipe.title}
         onChange={onChange}
         error={errors.title}/>
 
       <SelectInput
         name="authorId"
         label="Author"
-        value={receipe.authorId}
+        value={recipe.authorId}
         defaultOption="Select Author"
         options={allAuthors}
         onChange={onChange} error={errors.authorId}/>
@@ -24,14 +24,14 @@ const ReceipeForm = ({receipe, allAuthors, onSave, onChange, saving, errors}) =>
       <TextInput
         name="category"
         label="Category"
-        value={receipe.category}
+        value={recipe.category}
         onChange={onChange}
         error={errors.category}/>
 
       <TextInput
         name="length"
         label="Length"
-        value={receipe.length}
+        value={recipe.length}
         onChange={onChange}
         error={errors.length}/>
 
@@ -45,8 +45,8 @@ const ReceipeForm = ({receipe, allAuthors, onSave, onChange, saving, errors}) =>
   );
 };
 
-ReceipeForm.propTypes = {
-  receipe: PropTypes.object.isRequired,
+RecipeForm.propTypes = {
+  recipe: PropTypes.object.isRequired,
   allAuthors: PropTypes.array,
   onSave: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -54,7 +54,7 @@ ReceipeForm.propTypes = {
   errors: PropTypes.object
 };
 
-export default ReceipeForm;
+export default RecipeForm;
 
 
    

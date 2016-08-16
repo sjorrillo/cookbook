@@ -8,9 +8,9 @@ import { Router, browserHistory } from 'react-router';
 import routes from './routes';
 import {loadRecipes} from './actions/recipeActions';
 import {loadAuthors} from './actions/authorActions';
-import './styles/styles.css'; //Webpack can import CSS files too!
 import '../node_modules/materialize-css/dist/css/materialize.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
+import './styles/styles.css'; 
 
 // llamadas ajax superagent.
 

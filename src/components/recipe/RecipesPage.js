@@ -16,18 +16,32 @@ class RecipesPage extends React.Component {
         browserHistory.push('/recipe');
     }
 
+//  <div className="row">
+//                 <div className="col s12">
+//                     <div>
+//                         <h1>Recipes</h1>
+//                         <input type="button" value="Add Recipe" className="btn" onClick={this.addRecipe}/>
+//                         <RecipeList recipes={recipes}/>
+//                     </div>
+//                 </div>
+//             </div>
+
+// <div className="fixed-action-btn" style="bottom: 45px; right: 24px;">
+//                             <a className="btn-floating btn-large waves-effect waves-light red"><i className="material-icons">add</i></a> 
+//                         </div>
+
     render() {
         const {recipes} = this.props;
         return (
-            <div className="row">
-                <div className="col s12">
-                    <div>
-                        <h1>Recipes</h1>
-                        <input type="button" value="Add Recipe" className="btn" onClick={this.addRecipe}/>
-                        <RecipeList recipes={recipes}/>
+           <div>
+                <div className="row">
+                    <div className="col s12">
+                        <h4 className="header">List of Recipes</h4> 
+                        
                     </div>
                 </div>
-            </div>
+                <RecipeList recipes={recipes}/>
+           </div>
         );
     }
 }

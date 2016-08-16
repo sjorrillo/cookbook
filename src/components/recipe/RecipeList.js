@@ -1,24 +1,15 @@
 import React, {PropTypes} from 'react';
-import RecipeListRow from './RecipeListRow';
+import RecipeCard from './RecipeCard';
 
 const RecipeList = (props) => {
   return (
-    <table className="table">
-      <thead>
-      <tr>
-        <th>&nbsp;</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Category</th>
-        <th>Length</th>
-      </tr>
-      </thead>
-      <tbody>
-      {props.recipes.map(recipe =>
-        <RecipeListRow key={recipe.id} recipe={recipe}/>
-      )}
-      </tbody>
-    </table>
+    <div className="row">
+        {props.recipes.map(recipe =>
+          <div key={recipe.id} className="col s12 m6 l4">
+            <RecipeCard recipe={recipe}/>
+          </div>
+        )}
+    </div>
   );
 };
 

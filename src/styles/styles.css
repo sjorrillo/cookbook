@@ -1,4 +1,94 @@
-/* Styles */
-nav .brand-logo {
-  padding-left:16px !important;
+a {
+    color: #2196f3;
+}
+
+a:hover {
+    color: #42a5f5;
+}
+
+.container-fluid {
+    padding-top:12px;
+}
+
+.brand-logo {
+    padding-left: 12px !important;
+}
+
+nav .search.active {
+    margin-top:12px;
+    margin-right:12px;
+}
+nav .search input {
+     background-color:#01579b;
+     height: 38px;
+     margin-bottom: 0;
+     border-radius: 3px;
+}
+
+nav .search input:focus {
+    background-color:#e3f2fd !important;
+} 
+
+nav .search label {
+    top:-10px;
+}
+
+h4.header, h5.header {
+    color: #ee6e73;
+    font-weight: 300;
+    font-size: 1.8rem;
+}
+
+h5.header {
+    font-size: 1.5rem;
+}
+
+.card-title.menu {
+   position:relative;
+}
+
+.card-title.menu a.truncate {
+    padding-right:32px;
+}
+
+.card-title.menu .card-tool {
+    position:absolute;
+    top:5px;
+    right:0;
+}
+
+.card-action a{
+    font-size: 0.9em;
+    text-transform: none !important;
+    color: #2196f3 !important;
+}
+
+.card-action a:hover{
+    color: #42a5f5 !important;
+}
+
+.card-action a i{
+    padding-right:6px;
+}
+
+.card-action a:last-child i{
+    padding-left:6px;
+    padding-right:0;
+}
+
+.card-action a span{
+    display: inline-block;
+    position: relative;
+    top:-6px;
+}
+
+.card .description {
+    text-align: justify;
+    min-height: 90px;
+    padding-right:12px;
+}
+
+.card.details .card-action {
+    padding-left:0;
+    padding-right:0;
 }

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as recipeActions from '../../actions/recipeActions';
 import RecipeForm from './RecipeForm';
+import RecipeDetails from './RecipeDetails';
 import toastr from 'toastr';
 
 
@@ -54,14 +55,15 @@ class RecipeManagePage extends React.Component {
         return (
             <div className="row">
                 <div className="col s12">
-                    <RecipeForm
+                    {this.props.details && <RecipeDetails recipe={this.state.recipe}/>}
+                    {!this.props.details && <RecipeForm
                         allAuthors={this.props.authors}
                         recipe={this.state.recipe}
                         errors={this.state.errors}
                         onChange={this.updateRecipeState}
                         onSave={this.saveRecipe}
                         saving={this.state.processing}
-                        />
+                        />}
                 </div>
             </div>
         );
@@ -71,28 +73,43 @@ class RecipeManagePage extends React.Component {
 RecipeManagePage.propTypes = {
     recipe: PropTypes.object.isRequired,
     authors: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    details: PropTypes.bool
 };
 
 RecipeManagePage.contextTypes = {
     router: PropTypes.object
 };
 
-const getRecipe = (recipes, id) => {
+const getRecipeById = (recipes, id) => {
     const results = recipes.filter(recipe => recipe.id == id);
     if(results.length > 0) return results[0];
     return null;
 };
 
+const getRecipeBySlug = (recipes, slug) => {
+    const results = recipes.filter(recipe => recipe.slug == slug);
+    if(results.length > 0) return results[0];
+    return null;
+};
+
 const mapStateToPorps = (state, ownProps) => {
-    const recipeId = ownProps.params.id;
-    
-    let recipe = { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' };
-
-    if(recipeId) {
-        recipe = getRecipe(state.recipes, recipeId);
+    let recipe = { id: '', name: '', category: '', chef: '', preparation: '', ingredients: {} };
+    let showDetails = false;
+    if(ownProps.params.slug) {
+        const slug = ownProps.params.slug;
+        showDetails = true;
+        if(slug) {
+            recipe = getRecipeBySlug(state.recipes, slug);
+        }
     }
-
+    else {
+        const recipeId = ownProps.params.id;
+        if(recipeId) {
+            recipe = getRecipeById(state.recipes, recipeId);
+        }
+    }
+     
     let authorsItemList = state.authors.map(author => {
         return {
             value: author.id,
@@ -102,7 +119,8 @@ const mapStateToPorps = (state, ownProps) => {
     
     return {
         recipe: recipe,
-        authors: authorsItemList
+        authors: authorsItemList,
+        details: showDetails
     };
 };
 

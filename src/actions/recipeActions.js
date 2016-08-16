@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import courseApi from '../api/mockCourseApi';
+import recipeApi from '../api/mockRecipeApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 export function loadRecipesSuccess(recipes) {
@@ -17,7 +17,7 @@ export function updateRecipeSuccess(recipe) {
 export function loadRecipes() {
     return function(dispatch) {
         dispatch(beginAjaxCall());
-        return courseApi.getAllCourses().then(recipes => {
+        return recipeApi.getAllRecipes().then(recipes => {
             dispatch(loadRecipesSuccess(recipes));
         }).catch(error => {
             throw(error);
@@ -28,7 +28,7 @@ export function loadRecipes() {
 export function saveRecipe(recipe) {
     return function(dispatch, getState) {
         dispatch(beginAjaxCall());
-        return courseApi.saveCourse(recipe).then(savedRecipe => {
+        return recipeApi.saveCourse(recipe).then(savedRecipe => {
             recipe.id 
                 ? dispatch(updateRecipeSuccess(savedRecipe))
                 : dispatch(createRecipeSuccess(savedRecipe));

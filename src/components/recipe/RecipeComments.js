@@ -5,18 +5,25 @@ const RecipeComments = ({comments}) => {
         <div className="card white">
             <div className="card-content">
                 <h4 className="header">Comments</h4>
-                {comments.map(comment =>
-                    <div key={comment.id}>
-                        <p>{comment.content}</p>
+                <div className="collection">
+                    {comments && comments.map(comment =>
+                     <div key={comment.id} className="collection-item avatar">
+                        <div>
+                            <i className="circle green">{comment.id}</i>
+                            <span className="title">Comment {comment.id}</span>
+
+                            <p>{comment.content}</p>
+                        </div>
                     </div>
                 )}
+                </div>
             </div>
         </div>
   );
 };
 
 RecipeComments.propTypes = {
-  comments: PropTypes.object.isRequired
+  comments: PropTypes.array.isRequired
 };
 
 export default RecipeComments;

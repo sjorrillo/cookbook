@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux';
 import recipes from './recipeReducer';
-import authors from './authorReducer';
+import categories from './categoryReducer';
+import filter from './searchHeaderReducer';
 import ajaxCallsInProgress from './ajaxStatusReducer';
 
 const rootReducer = combineReducers({
     recipes,
-    authors,
+    categories,
+    filter,
     ajaxCallsInProgress
 });
 

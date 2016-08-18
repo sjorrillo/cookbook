@@ -3,56 +3,89 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import * as recipeActions from '../../actions/recipeActions';
 import RecipeList from './RecipeList';
-import {browserHistory} from 'react-router';
+import RecipeFilter from './controls/RecipeFilter';
+import {browserHistory, Link} from 'react-router';
 
 class RecipesPage extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.addRecipe = this.addRecipe.bind(this);
+        this.updatFilterState = this.updatFilterState.bind(this);
+        this.state = {
+            category: ""
+        };
+    }
+
+    componentDidMount() {
+        this.applyBehaviours();
+    }
+
+    componentDidUpdate() {
+        this.applyBehaviours();
+    }
+
+    applyBehaviours() {
+        $('.dropdown-button').dropdown({
+            constrain_width: false, // Does not change width of dropdown to that of the activator
+            belowOrigin: true,
+            alignment: 'right'
+        });
+
+        $('select').material_select();
+    }
+
+     updatFilterState(event) {
+        return this.setState({ category: event.target.value });
     }
 
     addRecipe() {
         browserHistory.push('/recipe');
     }
 
-//  <div className="row">
-//                 <div className="col s12">
-//                     <div>
-//                         <h1>Recipes</h1>
-//                         <input type="button" value="Add Recipe" className="btn" onClick={this.addRecipe}/>
-//                         <RecipeList recipes={recipes}/>
-//                     </div>
-//                 </div>
-//             </div>
-
-// <div className="fixed-action-btn" style="bottom: 45px; right: 24px;">
-//                             <a className="btn-floating btn-large waves-effect waves-light red"><i className="material-icons">add</i></a> 
-//                         </div>
-
     render() {
-        const {recipes} = this.props;
+        let {recipes, categories, searchText} = this.props;
+        const category = this.state.category;
+
+        recipes = recipes.filter(recipe => (!category || category == "All" || recipe.category == category) && 
+            (!searchText || searchText == "" || recipe.name.includes(searchText)));
+
         return (
-           <div>
+            <div>
                 <div className="row">
                     <div className="col s12">
-                        <h4 className="header">List of Recipes</h4> 
-                        
+                        <RecipeFilter 
+                            title="List of Recipes"
+                            filter={this.state.category} 
+                            categories={categories}
+                            onChange={this.updatFilterState}/>
+                        <div className="fixed-action-btn fixedAddButton">
+                            <Link to="/recipe" className="btn-floating btn-large waves-effect waves-light red"><i className="material-icons">add</i></Link>
+                        </div>
                     </div>
                 </div>
                 <RecipeList recipes={recipes}/>
-           </div>
+            </div>
         );
     }
 }
 
 RecipesPage.propTypes = {
     recipes: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    categories: PropTypes.array.isRequired,
+    searchText: PropTypes.string.isRequired
 };
 
-const mapStateToPorps = (state, ownProps) => ({ recipes: state.recipes });
+const mapStateToPorps = (state, ownProps) => {
 
-const mapDispatchToProps = (dispatch) => ({actions: bindActionCreators(recipeActions, dispatch)});
+    return {
+        recipes: state.recipes,
+        categories: state.categories,
+        searchText: state.filter || ""
+    };
+};
+
+const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(recipeActions, dispatch) });
 
 export default connect(mapStateToPorps, mapDispatchToProps)(RecipesPage);

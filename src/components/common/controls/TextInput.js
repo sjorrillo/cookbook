@@ -1,35 +1,22 @@
 import React, {PropTypes} from 'react';
 
-const TextInput = ({name, label, onChange, placeholder, value, error}) => {
-  let wrapperClass = 'form-group';
+const TextInput = ({name, label, onChange, placeholder, value, error, wrapperClass, prefixIcon = ""}) => {
   if (error && error.length > 0) {
     wrapperClass += " " + 'has-error';
   }
 
- // <div className={wrapperClass}>
-    //   <label htmlFor={name}>{label}</label>
-    //   <div className="field">
-    //     <input
-    //       type="text"
-    //       name={name}
-    //       className="form-control"
-    //       placeholder={placeholder}
-    //       value={value}
-    //       onChange={onChange}/>
-    //     {error && <div className="alert alert-danger">{error}</div>}
-    //   </div>
-    // </div>
   return (
-    <div className="input-field col s6">
-          <input
-            type="text"
-            name={name}
-            className="validate"
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}/>
-          <label htmlFor={name}>{label}</label>
-     </div>
+    <div className={"input-field col " + wrapperClass}>
+      {prefixIcon != "" && <i className="material-icons prefix">{prefixIcon}</i>}
+      <input
+        type="text"
+        name={name}
+        className="validate"
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}/>
+      <label htmlFor={name} className="active">{label}</label>
+    </div>
   );
 };
 
@@ -39,7 +26,9 @@ TextInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string,
-  error: PropTypes.string
+  error: PropTypes.string,
+  wrapperClass: PropTypes.string,
+  prefixIcon: PropTypes.string
 };
 
 export default TextInput;

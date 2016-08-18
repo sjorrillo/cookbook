@@ -63,6 +63,11 @@ h5.header {
     color: #2196f3 !important;
 }
 
+.card-action a.disabled, .card-action a.disabled:hover {
+    cursor: default;
+    color: #757575 !important;
+}
+
 .card-action a:hover{
     color: #42a5f5 !important;
 }
@@ -91,4 +96,14 @@ h5.header {
 .card.details .card-action {
     padding-left:0;
     padding-right:0;
+}
+
+.fixedAddButton {
+    bottom: 45px; 
+    right: 24px;
+}
+
+.head-title {
+    margin-bottom: 6px;
+    border-bottom:1px solid #e0e0e0;
 }

@@ -1,32 +1,16 @@
 import React, {PropTypes} from 'react';
 
-const SelectInput = ({name, label, onChange, defaultOption, value, error, options}) => {
-
-
-  // <div className="form-group">
-  //   <label htmlFor={name}>{label}</label>
-  //   <div className="field">
-  //     {/* Note, value is set here rather than on the option - docs: https://facebook.github.io/react/docs/forms.html */}
-  //     <select
-  //       name={name}
-  //       value={value}
-  //       onChange={onChange}
-  //       className="form-control">
-  //       <option value="">{defaultOption}</option>
-  //       {options.map((option) => {
-  //         return <option key={option.value} value={option.value}>{option.text}</option>;
-  //       })
-  //       }
-  //     </select>
-  //     {error && <div className="alert alert-danger">{error}</div>}
-  //   </div>
-  // </div>
+const SelectInput = ({name, label, onChange, defaultOption, value, error, options, wrapperClass}) => {
+   if (error && error.length > 0) {
+     wrapperClass += " " + 'has-error';
+   }
 
   return (
-    <div className="input-field col s6">
+    <div className={"input-field col " + wrapperClass}>
        <select
           name={name}
           value={value}
+          className="browser-default"
           onChange={onChange}>
           <option value="">{defaultOption}</option>
           {options.map((option) => {
@@ -46,7 +30,8 @@ SelectInput.propTypes = {
   defaultOption: PropTypes.string,
   value: PropTypes.string,
   error: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.object)
+  options: PropTypes.arrayOf(PropTypes.object),
+  wrapperClass: PropTypes.string
 };
 
 export default SelectInput;

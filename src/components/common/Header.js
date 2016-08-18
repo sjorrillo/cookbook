@@ -1,8 +1,10 @@
 import React, {PropTypes} from 'react';
 import { Link, IndexLink } from 'react-router';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import SearchHeader from './SearchHeader';
 import LoadingDots from './controls/LoadingDots';
-
+import * as searchActions from '../../actions/searchHeaderActions';
 
 class Header extends React.Component {
 
@@ -30,6 +32,7 @@ class Header extends React.Component {
     showSearchBox = filter !== "" ? false : showSearchBox;
 
     this.setState({ searchActive: !showSearchBox });
+    this.props.actions.updateFilterState(this.state.filter);
   }
 
   updateFilterState(event) {
@@ -38,21 +41,8 @@ class Header extends React.Component {
 
   searchRecords(event) {
     event.preventDefault();
-    alert("Search");
+    this.props.actions.updateFilterState(this.state.filter);
   }
-
-
-  // <nav className="red accent-3">
-  //     <div className="nav-wrapper">
-  //       <IndexLink to="/" className="brand-logo">CookBook</IndexLink>
-  //       {this.props.loading && <div className=""><LoadingDots interval={100} dots={20}/></div>}
-  //       <ul id="nav-mobile" className="right hide-on-med-and-down">
-  //         <li className={this.activeLink('/')}><IndexLink to="/">Home</IndexLink></li>
-  //         <li className={this.activeLink('/recipes')}><Link to="/recipes">Recipes</Link></li>
-  //         <li className={this.activeLink('/about')}><Link to="/about">About</Link></li>
-  //       </ul>
-  //     </div>
-  //   </nav>
 
   render() {
     return (
@@ -70,7 +60,7 @@ class Header extends React.Component {
                 onSearch={this.searchRecords}/>
 
               <li className={this.activeLink('/recipes') || this.activeLink('/') ? 'active': ""}><Link to="/recipes">Recipes</Link></li>
-              <li className={this.activeLink('/about') }><Link to="/about">About</Link></li>
+              <li className={this.activeLink('/about')}><Link to="/about">About</Link></li>
             </ul>
             <ul className="side-nav" id="mobile-demo">
               <li>
@@ -97,6 +87,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  actions: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired
 };
 
@@ -104,4 +95,8 @@ Header.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default Header;
+const mapStateToProps = (state, ownProps) => ({});
+
+const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(searchActions, dispatch) });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

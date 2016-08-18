@@ -7,16 +7,17 @@ import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import routes from './routes';
 import {loadRecipes} from './actions/recipeActions';
-import {loadAuthors} from './actions/authorActions';
+import {loadCategories} from './actions/categoryActions';
 import '../node_modules/materialize-css/dist/css/materialize.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
+import materialize from 'materialize-css';
 import './styles/styles.css'; 
 
 // llamadas ajax superagent.
 
 const store = configureStore();
 store.dispatch(loadRecipes());
-store.dispatch(loadAuthors());
+store.dispatch(loadCategories());
 
 render(
     <Provider store={store}>

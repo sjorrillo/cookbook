@@ -75,13 +75,12 @@ class RecipePage extends React.Component {
 
     addIngredient(limitRecords = 0) {
         let recipe = this.state.recipe;
-        let ingredientList = [...recipe.ingredients];
-        ingredientList = _.filter(ingredientList, function (x) { return x.entityState == undefined || x.entityState != 3; });//deleted
+        let ingredientList = _.filter(recipe.ingredients, function (x) { return x.entityState == undefined || x.entityState != 3; });//deleted
         if (limitRecords == 0 || ingredientList.length < limitRecords) {
             let canAddNew = !_.some(ingredientList, { entityState: 0 });
             if (canAddNew) {
-                ingredientList.push(Object.assign({}, { id: this.getNewId(), name: "", amount: "", entityState: 0 })); //none;
-                recipe.ingredients = ingredientList
+                var newRecord = { id: this.getNewId(), name: "", amount: "", entityState: 0 }; //none;
+                recipe.ingredients = [...recipe.ingredients, newRecord];
                 this.setState({ recipe: recipe });
             }
         }
@@ -129,9 +128,9 @@ class RecipePage extends React.Component {
         let ingredientList = [...recipe.ingredients];
         let ingredient = _.find(ingredientList, { id: id});
         const index = _.indexOf(ingredientList, ingredient);
-        const field = event.target.name;
         
         let record = Object.assign({}, ingredient);
+        const field = event.target.name;
         record[field] = event.target.value;
       
         if (index !== -1) {
@@ -139,6 +138,7 @@ class RecipePage extends React.Component {
                 record.entityState = 2;//modified
             }
         }
+
         ingredientList.splice(index, 1, record);
       
        recipe.ingredients = ingredientList;

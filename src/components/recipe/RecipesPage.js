@@ -32,11 +32,18 @@ class RecipesPage extends React.Component {
             alignment: 'right'
         });
 
-        $('select').material_select();
+        $('select').material_select(this.updatFilterState);
     }
 
      updatFilterState(event) {
-        return this.setState({ category: event.target.value });
+        let value = "";
+        if(!event) {
+            value = $("select[name='category']").val();
+        }
+        else {
+            value = event.target.value;
+        }
+        this.setState({ category: value });
     }
 
     addRecipe() {
@@ -48,7 +55,7 @@ class RecipesPage extends React.Component {
         const category = this.state.category;
 
         recipes = recipes.filter(recipe => (!category || category == "All" || recipe.category == category) && 
-            (!searchText || searchText == "" || recipe.name.includes(searchText)));
+            (!searchText || searchText == "" || (recipe.name || '').toLowerCase().includes(searchText.toLowerCase())));
 
         return (
             <div>

@@ -1,4 +1,5 @@
 import delay from './delay';
+import _ from 'lodash';
 
 const recipes = [{"id":1,"publishDate":"2016-06-29T05:48:33Z","name":"Quamba","slug":"quamba","category":"Salads","chef":"Gastón Acurio","preparation":"Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.\n\nMaecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.","raters":1,"rating":4,"ingredients":[{"id":1,"name":"Wrapsafe","amount":"#2fb"},{"id":2,"name":"Solarbreeze","amount":"#1e0"}],"comments":[{"id":1,"content":"Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero."},{"id":2,"content":"Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl."},{"id":3,"content":"Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero."},{"id":4,"content":"Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris."},{"id":5,"content":"Sed ante. Vivamus tortor. Duis mattis egestas metus."}]},
 {"id":2,"publishDate":"2016-06-28T05:37:24Z","name":"Bubbletube","slug":"bubbletube","category":"Salads","chef":"Gastón Acurio","preparation":"Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.","raters":1,"rating":5,"ingredients":[{"id":1,"name":"Voyatouch","amount":"#cde"}],"comments":[{"id":1,"content":"Sed ante. Vivamus tortor. Duis mattis egestas metus."},{"id":2,"content":"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus."}]},
@@ -19,7 +20,30 @@ const recipes = [{"id":1,"publishDate":"2016-06-29T05:48:33Z","name":"Quamba","s
 {"id":17,"publishDate":"2016-03-06T05:13:01Z","name":"Voonyx","slug":"voonyx","category":"Salads","chef":"Javier Wong","preparation":"Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.","raters":1,"rating":1,"ingredients":[{"id":1,"name":"Duobam","amount":"#0de"},{"id":2,"name":"Namfix","amount":"#c6f"},{"id":3,"name":"Sonair","amount":"#b6f"}],"comments":[{"id":1,"content":"Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus."}]},
 {"id":18,"publishDate":"2016-02-20T05:14:05Z","name":"Quatz","slug":"quatz","category":"Pastas","chef":"Javier Wong","preparation":"Sed ante. Vivamus tortor. Duis mattis egestas metus.","raters":1,"rating":3,"ingredients":[{"id":1,"name":"Fintone","amount":"#3f3"},{"id":2,"name":"Daltfresh","amount":"#c18"},{"id":3,"name":"Greenlam","amount":"#cd7"}],"comments":[{"id":1,"content":"Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh."},{"id":2,"content":"Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem."},{"id":3,"content":"Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio."},{"id":4,"content":"Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum."},{"id":5,"content":"Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum."}]}];
 
+const getNewId = () => {
+    if (recipes.length == 0)
+        return 1;
+
+    let sortedItems = _.sortBy(recipes, function (x) {
+        return x.Id;
+    });
+
+    let lastItem = _.last(sortedItems);
+    return lastItem.id + 1;
+};
+
+const slugify = (text) =>{
+  return text.toString().toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
+};
+
 class RecipeApi {
+
+
   static getAllRecipes() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -31,17 +55,22 @@ class RecipeApi {
   static saveRecipe(recipe) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // Simulate server-side validation
-        // const minCourseTitleLength = 1;
-        // if (recipe.title.length < minCourseTitleLength) {
-        //   reject(`Title must be at least ${minCourseTitleLength} characters.`);
-        // }
+        if(!recipe.name || recipe.name.length < 3) {
+          reject("The name of the recipe must be more than 3 charcaters");
+        }
 
-        if (recipe.entityState == 2) {
-          const index = recipes.findIndex(a => a.id == recipe.id);
-          recipes.splice(index, 1, recipe);
-        } else {
+        recipe.slug = slugify(recipe.name);
+        var exists = _.some(recipes, (x) => (recipe.id == 0 || x.id != recipe.id) && x.name.toLowerCase() == recipe.name.toLowerCase());
+        if(exists) {
+          reject("The recipe's name exists in the database");
+        }
+
+        if (recipe.id == 0) {
+          recipe.id = getNewId();
           recipes.push(recipe);
+        } else {
+           const index = recipes.findIndex(a => a.id == recipe.id);
+           recipes.splice(index, 1, recipe);
         }
 
         resolve(Object.assign({}, recipe));

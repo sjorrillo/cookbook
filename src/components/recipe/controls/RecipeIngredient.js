@@ -10,12 +10,14 @@ const RecipeIngredient = ({ingredient, onChange, onAddRecord, onRemoveRecord, er
                 prefixIcon="input"
                 value={ingredient.name}
                 onChange={onChange}
+                data-rowId={ingredient.id}
                 wrapperClass="s5"/>
              <TextInput
                 name="amount"
                 label="Amount"
                 prefixIcon="speaker_notes"
                 value={ingredient.amount}
+                data-rowId={ingredient.id}
                 onChange={onChange}
                 wrapperClass="s5"/>
             <div className="input-field col s2">

@@ -4,13 +4,13 @@ const SelectInput = ({name, label, onChange, defaultOption, value, error, option
    if (error && error.length > 0) {
      wrapperClass += " " + 'has-error';
    }
-
+//className="browser-default"
   return (
     <div className={"input-field col " + wrapperClass}>
        <select
           name={name}
           value={value}
-          className="browser-default"
+          
           onChange={onChange}>
           <option value="">{defaultOption}</option>
           {options.map((option) => {

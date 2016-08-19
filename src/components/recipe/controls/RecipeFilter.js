@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 
 const RecipeFilter = ({title, filter, categories, onChange}) => {
-  // <label htmlFor="category">Category Filter</label>
     return (
         <div className="grey lighten-5">
           <div className="row valign-wrapper head-title">
@@ -13,7 +12,7 @@ const RecipeFilter = ({title, filter, categories, onChange}) => {
                    <div className="input-field col s12">
                        <select
                           name="category"
-                          className="browser-default"
+                          
                           value={filter}
                           onChange={onChange}>
                           <option value="All">All</option>
@@ -22,7 +21,7 @@ const RecipeFilter = ({title, filter, categories, onChange}) => {
                           })
                           }
                       </select>
-                      
+                      <label htmlFor="category">Category Filter</label>
                   </div>
               </div>
             </div>

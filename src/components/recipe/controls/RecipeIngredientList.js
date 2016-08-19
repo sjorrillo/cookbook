@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import RecipeIngredient from './RecipeIngredient';
+import appTypes from '../../../common/appTypes';
 
 const RecipeIngredientList = ({ingredients, onAddIngredient, onRemoveRecord, onUpdateIngredient}) => {
-
     let records = ingredients.filter((ingredient) => ingredient.entityState != 3);//no deleted
 
     return (
@@ -16,7 +16,7 @@ const RecipeIngredientList = ({ingredients, onAddIngredient, onRemoveRecord, onU
                     onAddRecord={onAddIngredient.bind(this, ingredient.id)}
                     onRemoveRecord={onRemoveRecord.bind(this, ingredient.id)}
                     addState={ingredient.entityState == 0}/>
-            ) }
+            )}
         </div>
     );
 };
@@ -25,7 +25,7 @@ RecipeIngredientList.propTypes = {
     ingredients: PropTypes.array.isRequired,
     onAddIngredient: PropTypes.func.isRequired,
     onRemoveRecord: PropTypes.func.isRequired,
-    onUpdateIngredient: PropTypes.func.isRequired,
+    onUpdateIngredient: PropTypes.func.isRequired
 };
 
 export default RecipeIngredientList;

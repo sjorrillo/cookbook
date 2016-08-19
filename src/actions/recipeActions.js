@@ -27,7 +27,6 @@ export function loadRecipes() {
 
 export function saveRecipe(recipe) {
     return function(dispatch, getState) {
-        debugger;
         dispatch(beginAjaxCall());
         return recipeApi.saveRecipe(recipe).then(savedRecipe => {
             recipe.id 

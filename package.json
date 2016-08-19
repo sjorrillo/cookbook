@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "babel-polyfill": "6.8.0",
-    "bootstrap": "3.3.6",
     "jquery": "2.2.3",
     "lodash": "^4.15.0",
     "materialize-css": "^0.97.7",

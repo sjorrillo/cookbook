@@ -49,25 +49,39 @@ class RecipePage extends React.Component {
             belowOrigin: true,
             alignment: 'right'
         });
-        $('select').material_select();
-        this.addIngredient(4);
+        $('select').material_select(this.updateRecipeState);
+        
+        if(!this.props.details && this.state.recipe.ingredients) {
+            this.addIngredient(4);//limit of ingredients
+        }
     }
 
     updateRecipeState(event) {
-        const field = event.target.name;
+        let value = "";
+        let field = "";
+        if(!event) {
+            field = "category";
+            value = $("select[name='category']").val();
+        }
+        else {
+            value = event.target.value;
+            field = event.target.name;
+        }
+        
         let recipe = this.state.recipe;
-        recipe[field] = event.target.value;
+        recipe[field] = value;
         this.setState({ recipe: recipe });
     }
 
     addIngredient(limitRecords = 0) {
-        let ingredients = [...this.state.recipe.ingredients];
-        ingredients = _.filter(ingredients, function (x) { return x.entityState == undefined || x.entityState != 3; });//deleted
-        if (limitRecords == 0 || ingredients.length < limitRecords) {
-            let canAddNew = !_.some(ingredients, { entityState: 0 });
+        let recipe = this.state.recipe;
+        let ingredientList = [...recipe.ingredients];
+        ingredientList = _.filter(ingredientList, function (x) { return x.entityState == undefined || x.entityState != 3; });//deleted
+        if (limitRecords == 0 || ingredientList.length < limitRecords) {
+            let canAddNew = !_.some(ingredientList, { entityState: 0 });
             if (canAddNew) {
-                let recipe = this.state.recipe;
-                recipe.ingredients.push({ id: this.getNewId(), name: "", amount: "", entityState: 0 });//none
+                ingredientList.push(Object.assign({}, { id: this.getNewId(), name: "", amount: "", entityState: 0 })); //none;
+                recipe.ingredients = ingredientList
                 this.setState({ recipe: recipe });
             }
         }
@@ -86,63 +100,62 @@ class RecipePage extends React.Component {
         return lastItem.id + 1;
     }
 
-    onAddIngredient(id) {
+    changeIngredientState(ingredientId, entityState) {
         let recipe = this.state.recipe;
-        let ingredientList = recipe.ingredients;
-        const ingredient = _.find(ingredientList, { id: id });
+        let ingredientList = [...recipe.ingredients];
+        let ingredient = _.find(ingredientList, { id: ingredientId });
         const index = _.indexOf(ingredientList, ingredient);
+        let record = Object.assign({}, ingredient);
 
         if (index !== -1) {
-            ingredient.entityState = 1;//added
-            ingredientList.splice(index, 1, ingredient);
+            record.entityState = entityState;
+            ingredientList.splice(index, 1, record);
         }
 
         recipe.ingredients = ingredientList;
         this.setState({ recipe: recipe });
     }
 
-    onUpdateIngredient(id, event) {
-        let recipe = this.state.recipe;
-        let ingredientList = recipe.ingredients;
-        const ingredient = _.find(ingredientList, { id: id });
-        const index = _.indexOf(ingredientList, ingredient);
-        const field = event.target.name;
-        ingredient[field] = event.target.value;
-
-        if (index !== -1) {
-            if (ingredient.entityState == 4) {//unchanged
-                ingredient.entityState = 2;//modified
-                ingredientList.splice(index, 1, ingredient);
-            }
-        }
-        recipe.ingredients = ingredientList;
-        this.setState({ recipe: recipe });
+    onAddIngredient(id) {
+        this.changeIngredientState(id, 1);//added
     }
 
     onRemoveRecord(id) {
-        let recipe = this.state.recipe;
-        let ingredientList = recipe.ingredients;
-        const ingredient = _.find(ingredientList, { id: id });
+        this.changeIngredientState(id, 3);//deleted
+    }
+
+    onUpdateIngredient(id, event) {
+        let recipe =  this.state.recipe;
+        let ingredientList = [...recipe.ingredients];
+        let ingredient = _.find(ingredientList, { id: id});
         const index = _.indexOf(ingredientList, ingredient);
-
+        const field = event.target.name;
+        
+        let record = Object.assign({}, ingredient);
+        record[field] = event.target.value;
+      
         if (index !== -1) {
-            ingredient.entityState = 3;//deleted
-            ingredientList.splice(index, 1, ingredient);
+            if (record.entityState == 4) {//unchanged
+                record.entityState = 2;//modified
+            }
         }
-
-        recipe.ingredients = ingredientList;
-        this.setState({ recipe: recipe });
+        ingredientList.splice(index, 1, record);
+      
+       recipe.ingredients = ingredientList;
+       this.setState({ recipe: recipe });
     }
 
     saveRecipe(event) {
-        debugger;
         event.preventDefault();
         this.setState({ processing: true });
-        this.props.actions.saveRecipe(this.state.recipe)
+        let recipe = Object.assign({}, this.state.recipe);
+        recipe.ingredients = recipe.ingredients.filter((recipe) => recipe.entityState != 0);
+        this.props.actions.saveRecipe(recipe)
             .then(() => this.backToList())
             .catch(error => {
                 toastr.error(error);
                 this.setState({ processing: false });
+                throw(error);
             });
     }
 
@@ -205,7 +218,7 @@ const getRecipeBySlug = (recipes, slug) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    let recipe = { id: '', name: '', category: '', chef: '', preparation: '', ingredients: [] };
+    let recipe = { id: 0, name: '', category: '', chef: '', preparation: '', raters:0, rating: 0, ingredients: []};
     let showDetails = false;
     if (ownProps.params.slug) {
         const slug = ownProps.params.slug;

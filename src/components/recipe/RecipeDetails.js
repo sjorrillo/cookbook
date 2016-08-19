@@ -3,6 +3,8 @@ import RecipeComments from './RecipeComments';
 import {Link} from 'react-router';
 
 const RecipeDetails = ({recipe}) => {
+  const comments = recipe.comments ? recipe.comments.length : 0;
+
   return (
       <div>
         <div className="card white details">
@@ -18,9 +20,9 @@ const RecipeDetails = ({recipe}) => {
                     </div> 
                 </div>
                 <div className="card-action grey-text darken-1">
-                    <a href="#"><i className="material-icons">label_outline</i><span>{recipe.category}</span></a>
-                    <a href="#"><i className="material-icons">chat_bubble_outline</i><span>10</span></a>
-                    <a href="#" className="right"><span>{recipe.chef}</span><i className="material-icons">person_pin</i></a>
+                    <a href="javascript:void(0);" className="disabled"><i className="material-icons">label_outline</i><span>{recipe.category}</span></a>
+                    <a href="javascript:void(0);" className="disabled"><i className="material-icons">chat_bubble_outline</i><span>{comments}</span></a>
+                    <a href="javascript:void(0);" className="right disabled"><span>{recipe.chef}</span><i className="material-icons">person_pin</i></a>
                 </div>
                 <div className="grey-text text-darken-2 description">
                     {recipe.preparation}

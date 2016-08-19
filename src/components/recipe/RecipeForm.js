@@ -43,8 +43,7 @@ import RecipeIngredientList from './controls/RecipeIngredientList';
 //         onClick={onSave}/>
 //     </form>
 
-const RecipeForm = ({recipe, categories, onSave, onChange, saving, onUpdateIngredients, onAddIngredient, errors}) => {
-  const limitOfIngredients = 4;
+const RecipeForm = ({recipe, categories, onSave, onChange, onAddIngredient, onRemoveRecord, onUpdateIngredient, saving, errors}) => {
 
   return (
     <div>
@@ -85,10 +84,10 @@ const RecipeForm = ({recipe, categories, onSave, onChange, saving, onUpdateIngre
             </div>
 
             {recipe.ingredients && <RecipeIngredientList
-              ingredients={recipe.ingredients}
-              onUpdateIngredients={onUpdateIngredients}
-              onAddIngredient={onAddIngredient}
-              limit={limitOfIngredients}/>}
+              ingredients={recipe.ingredients} 
+              onAddIngredient={onAddIngredient} 
+              onRemoveRecord={onRemoveRecord}
+              onUpdateIngredient={onUpdateIngredient}/>}
 
             <div className="row">
               <h5 className="header">Description of Preparation</h5>
@@ -125,9 +124,10 @@ RecipeForm.propTypes = {
   categories: PropTypes.array,
   onSave: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  saving: PropTypes.bool,
-  onUpdateIngredients: PropTypes.func.isRequired,
   onAddIngredient: PropTypes.func.isRequired,
+  onRemoveRecord: PropTypes.func.isRequired,
+  onUpdateIngredient: PropTypes.func.isRequired,
+  saving: PropTypes.bool,
   errors: PropTypes.object
 };
 

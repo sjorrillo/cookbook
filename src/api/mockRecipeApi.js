@@ -27,6 +27,39 @@ class RecipeApi {
       }, delay);
     });
   }
+
+  static saveRecipe(recipe) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // Simulate server-side validation
+        // const minCourseTitleLength = 1;
+        // if (recipe.title.length < minCourseTitleLength) {
+        //   reject(`Title must be at least ${minCourseTitleLength} characters.`);
+        // }
+
+        if (recipe.entityState == 2) {
+          const index = recipes.findIndex(a => a.id == recipe.id);
+          recipes.splice(index, 1, recipe);
+        } else {
+          recipes.push(recipe);
+        }
+
+        resolve(Object.assign({}, recipe));
+      }, delay);
+    });
+  }
+
+  static deleteRecipe(recipeId) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const index = recipes.findIndex(recipe => {
+          recipe.id == recipeId;
+        });
+        recipes.splice(index, 1);
+        resolve();
+      }, delay);
+    });
+  }
 }
 
 export default RecipeApi;

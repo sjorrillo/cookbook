@@ -30,11 +30,11 @@ const RecipeIngredient = ({ingredient, onChange, onAddRecord, onRemoveRecord, er
 
 RecipeIngredient.propTypes = {
     ingredient: PropTypes.object.isRequired,
-    addState: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     onAddRecord: PropTypes.func.isRequired,
     onRemoveRecord: PropTypes.func.isRequired,
-    errors: PropTypes.object
+    errors: PropTypes.object,
+    addState: PropTypes.bool
 };
 
 export default RecipeIngredient;

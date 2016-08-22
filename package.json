@@ -6,9 +6,10 @@
   "license": "MIT",
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
-    "start": "npm-run-all --parallel open:src lint:watch test:watch",
+    "start": "npm-run-all --parallel open:src open:api lint:watch test:watch",
     "open:src": "babel-node tools/srcServer.js",
-    "lint": "node_modules/.bin/esw webpack.config.* src tools",
+    "open:api": "babel-node api/app.js",
+    "lint": "node_modules/.bin/esw webpack.config.* src api tools",
     "lint:watch": "npm run lint -- --watch",
     "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
     "test:watch": "npm run test -- --watch"
@@ -16,8 +17,10 @@
   "dependencies": {
     "babel-polyfill": "6.8.0",
     "jquery": "2.2.3",
+    "knex": "^0.11.10",
     "lodash": "^4.15.0",
     "materialize-css": "^0.97.7",
+    "pg": "^6.1.0",
     "react": "15.0.2",
     "react-dom": "15.0.2",
     "react-redux": "4.4.5",
@@ -36,6 +39,7 @@
     "babel-preset-react": "6.5.0",
     "babel-preset-react-hmre": "1.1.1",
     "babel-register": "6.8.0",
+    "body-parser": "^1.15.2",
     "colors": "1.1.2",
     "compression": "1.6.1",
     "cross-env": "1.0.7",
@@ -67,6 +71,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/coryhouse/pluralsight-redux-starter"
+    "url": "https://github.com/sjorrillo/cookbook"
   }
 }

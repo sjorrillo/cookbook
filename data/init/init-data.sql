@@ -1,0 +1,101 @@
+--Categories
+
+insert into Category (id, name) values (1, 'Pastas');
+insert into Category (id, name) values (2, 'Salads');
+insert into Category (id, name) values (3, 'Meat');
+insert into Category (id, name) values (4, 'Desserts');
+
+--Recipes
+insert into Recipe (id, name, slug, chef, preparation, raters, rating, categoryId) values (1, 'Konklab', 'Konklab', 'Pedro Miguel Schiaffino', 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh.', 4, 1.12, 4);
+insert into Recipe (id, name, slug, chef, preparation, raters, rating, categoryId) values (2, 'It', 'It', 'Pedro Miguel Schiaffino', 'Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis.', 3, 2.66, 4);
+insert into Recipe (id, name, slug, chef, preparation, raters, rating, categoryId) values (3, 'Regrant', 'Regrant', 'Gastón Acurio', 'Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus.', 6, 1.05, 1);
+insert into Recipe (id, name, slug, chef, preparation, raters, rating, categoryId) values (4, 'Voyatouch', 'Voyatouch', 'Gastón Acurio', 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.', 4, 2.33, 1);
+insert into Recipe (id, name, slug, chef, preparation, raters, rating, categoryId) values (5, 'Prodder', 'Prodder', 'Pedro Miguel Schiaffino', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque. Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.', 1, 1.79, 3);
+insert into Recipe (id, name, slug, chef, preparation, raters, rating, categoryId) values (6, 'Fix San', 'Fix San', 'Pedro Miguel Schiaffino', 'Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 7, 1.96, 3);
+insert into Recipe (id, name, slug, chef, preparation, raters, rating, categoryId) values (7, 'Voltsillam', 'Voltsillam', 'Pedro Miguel Schiaffino', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 6, 4.49, 2);
+insert into Recipe (id, name, slug, chef, preparation, raters, rating, categoryId) values (8, 'Cardify', 'Cardify', 'Pedro Miguel Schiaffino', 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 5, 3.43, 2);
+
+
+--Ingredients
+insert into Ingredient (id, name, amount, recipeId) values (1, 'Topiclounge', '2.3', 1);
+insert into Ingredient (id, name, amount, recipeId) values (2, 'Jaxnation', '4.4', 7);
+insert into Ingredient (id, name, amount, recipeId) values (3, 'Dablist', '0.5.0', 6);
+insert into Ingredient (id, name, amount, recipeId) values (4, 'Twinte', '7.1', 8);
+insert into Ingredient (id, name, amount, recipeId) values (5, 'Avamba', '7.3.2', 3);
+insert into Ingredient (id, name, amount, recipeId) values (6, 'Yoveo', '0.5.4', 3);
+insert into Ingredient (id, name, amount, recipeId) values (7, 'Jaxnation', '0.28', 6);
+insert into Ingredient (id, name, amount, recipeId) values (8, 'Brainlounge', '0.59', 6);
+insert into Ingredient (id, name, amount, recipeId) values (9, 'Kazu', '7.36', 4);
+insert into Ingredient (id, name, amount, recipeId) values (10, 'Jabbertype', '0.54', 7);
+insert into Ingredient (id, name, amount, recipeId) values (11, 'Lazzy', '8.18', 2);
+insert into Ingredient (id, name, amount, recipeId) values (12, 'Trunyx', '0.4.5', 5);
+insert into Ingredient (id, name, amount, recipeId) values (13, 'Zoomcast', '0.1.0', 1);
+insert into Ingredient (id, name, amount, recipeId) values (14, 'Tazzy', '8.9', 6);
+insert into Ingredient (id, name, amount, recipeId) values (15, 'Mydo', '0.9.2', 6);
+insert into Ingredient (id, name, amount, recipeId) values (16, 'Flashpoint', '2.5.1', 8);
+insert into Ingredient (id, name, amount, recipeId) values (17, 'Avamba', '5.41', 2);
+insert into Ingredient (id, name, amount, recipeId) values (18, 'Quinu', '3.3', 7);
+insert into Ingredient (id, name, amount, recipeId) values (19, 'Wordtune', '4.7.2', 6);
+insert into Ingredient (id, name, amount, recipeId) values (20, 'Wikibox', '6.8', 8);
+insert into Ingredient (id, name, amount, recipeId) values (21, 'Lazz', '0.51', 1);
+insert into Ingredient (id, name, amount, recipeId) values (22, 'Browseblab', '0.9.8', 7);
+insert into Ingredient (id, name, amount, recipeId) values (23, 'Tavu', '9.5.0', 1);
+insert into Ingredient (id, name, amount, recipeId) values (24, 'Jaxspan', '0.8.7', 8);
+insert into Ingredient (id, name, amount, recipeId) values (25, 'Kayveo', '8.8', 1);
+insert into Ingredient (id, name, amount, recipeId) values (26, 'Vimbo', '0.2.1', 3);
+insert into Ingredient (id, name, amount, recipeId) values (27, 'Voonyx', '8.3', 2);
+insert into Ingredient (id, name, amount, recipeId) values (28, 'Yodoo', '0.9.4', 2);
+insert into Ingredient (id, name, amount, recipeId) values (29, 'Myworks', '9.3', 4);
+insert into Ingredient (id, name, amount, recipeId) values (30, 'Quire', '1.6', 8);
+insert into Ingredient (id, name, amount, recipeId) values (31, 'Riffpath', '0.7.2', 7);
+insert into Ingredient (id, name, amount, recipeId) values (32, 'Buzzbean', '0.1.7', 5);
+insert into Ingredient (id, name, amount, recipeId) values (33, 'Twinte', '0.3.2', 2);
+insert into Ingredient (id, name, amount, recipeId) values (34, 'Mynte', '0.70', 3);
+insert into Ingredient (id, name, amount, recipeId) values (35, 'Twinte', '2.62', 6);
+insert into Ingredient (id, name, amount, recipeId) values (36, 'Yozio', '0.1.0', 4);
+insert into Ingredient (id, name, amount, recipeId) values (37, 'Devify', '0.13', 8);
+insert into Ingredient (id, name, amount, recipeId) values (38, 'Twitterworks', '2.25', 6);
+insert into Ingredient (id, name, amount, recipeId) values (39, 'Meevee', '1.1', 2);
+insert into Ingredient (id, name, amount, recipeId) values (40, 'Chatterbridge', '0.7.3', 3);
+
+---Comments
+insert into Comment (id, content, recipeId) values (1, 'Mauris ullamcorper purus sit amet nulla.', 5);
+insert into Comment (id, content, recipeId) values (2, 'In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 3);
+insert into Comment (id, content, recipeId) values (3, 'Vivamus in felis eu sapien cursus vestibulum.', 5);
+insert into Comment (id, content, recipeId) values (4, 'Aenean lectus.', 3);
+insert into Comment (id, content, recipeId) values (5, 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla.', 4);
+insert into Comment (id, content, recipeId) values (6, 'Duis bibendum. Morbi non quam nec dui luctus rutrum.', 4);
+insert into Comment (id, content, recipeId) values (7, 'Quisque id justo sit amet sapien dignissim vestibulum.', 3);
+insert into Comment (id, content, recipeId) values (8, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.', 5);
+insert into Comment (id, content, recipeId) values (9, 'Duis bibendum.', 8);
+insert into Comment (id, content, recipeId) values (10, 'In eleifend quam a odio. In hac habitasse platea dictumst.', 2);
+insert into Comment (id, content, recipeId) values (11, 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.', 6);
+insert into Comment (id, content, recipeId) values (12, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.', 4);
+insert into Comment (id, content, recipeId) values (13, 'Morbi a ipsum.', 2);
+insert into Comment (id, content, recipeId) values (14, 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis.', 2);
+insert into Comment (id, content, recipeId) values (15, 'In congue. Etiam justo.', 1);
+insert into Comment (id, content, recipeId) values (16, 'In eleifend quam a odio.', 5);
+insert into Comment (id, content, recipeId) values (17, 'Etiam faucibus cursus urna. Ut tellus.', 3);
+insert into Comment (id, content, recipeId) values (18, 'Sed ante.', 1);
+insert into Comment (id, content, recipeId) values (19, 'Praesent blandit. Nam nulla.', 3);
+insert into Comment (id, content, recipeId) values (20, 'Maecenas rhoncus aliquam lacus.', 4);
+insert into Comment (id, content, recipeId) values (21, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.', 8);
+insert into Comment (id, content, recipeId) values (22, 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.', 8);
+insert into Comment (id, content, recipeId) values (23, 'Proin risus.', 7);
+insert into Comment (id, content, recipeId) values (24, 'Nulla ut erat id mauris vulputate elementum. Nullam varius.', 3);
+insert into Comment (id, content, recipeId) values (25, 'Fusce consequat.', 6);
+insert into Comment (id, content, recipeId) values (26, 'Etiam justo.', 4);
+insert into Comment (id, content, recipeId) values (27, 'Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 1);
+insert into Comment (id, content, recipeId) values (28, 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.', 6);
+insert into Comment (id, content, recipeId) values (29, 'Proin at turpis a pede posuere nonummy. Integer non velit.', 5);
+insert into Comment (id, content, recipeId) values (30, 'Proin risus. Praesent lectus.', 3);
+insert into Comment (id, content, recipeId) values (31, 'Proin risus.', 2);
+insert into Comment (id, content, recipeId) values (32, 'Cras in purus eu magna vulputate luctus.', 8);
+insert into Comment (id, content, recipeId) values (33, 'Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 6);
+insert into Comment (id, content, recipeId) values (34, 'Pellentesque at nulla. Suspendisse potenti.', 3);
+insert into Comment (id, content, recipeId) values (35, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl.', 3);
+insert into Comment (id, content, recipeId) values (36, 'Aliquam non mauris.', 8);
+insert into Comment (id, content, recipeId) values (37, 'Duis ac nibh.', 1);
+insert into Comment (id, content, recipeId) values (38, 'Sed sagittis.', 2);
+insert into Comment (id, content, recipeId) values (39, 'Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.', 8);
+insert into Comment (id, content, recipeId) values (40, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo.', 1);

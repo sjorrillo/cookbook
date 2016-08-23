@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import {routes as configureRoutes} from './routes';
 import knex from 'knex';
+import cors from 'cors';
 
 const app = express();
 const port = process.env.PORT || 3032; 
@@ -31,7 +32,7 @@ const router = express.Router();
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 configureRoutes(app, router, db);
-app.use('/api', router);
+app.use('/api', cors(), router);
 
 // Start the server
 app.listen(port); 

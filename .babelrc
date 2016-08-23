@@ -9,5 +9,8 @@
                 "react-hmre"
             ]
         }
-    }
+    },
+    "plugins": [
+        "transform-async-to-generator"
+    ]
 }

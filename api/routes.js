@@ -1,15 +1,20 @@
 import {category} from './controllers/category';
+import {recipe} from './controllers/recipe';
 
 export const routes = (app, router, db) => {
     const route = (handler) => {
         return handler(db);
     };
 
-    // category
+    // Category
     const categoryController = route(category);
-    //app.get("/categories", categoryController.list);
-    router.route('/categories')
-        .get(categoryController.list);
+    router.route('/categories').get(categoryController.list);
+
+    // Recipe
+    const recipeController = route(recipe);
+    router.route('/recipes').get(recipeController.list);
+    router.route('/recipes/:id').get(recipeController.getById);
+    router.route('/recipes/details/:slug').get(recipeController.getBySlug);
 
     // catch-all
     router.route('*')

@@ -12,12 +12,11 @@ const RecipeFilter = ({title, filter, categories, onChange}) => {
                    <div className="input-field col s12">
                        <select
                           name="category"
-                          
                           value={filter}
                           onChange={onChange}>
-                          <option value="All">All</option>
+                          <option value="0">All</option>
                           {categories.map((category) => {
-                            return <option key={category.id} value={category.name}>{category.name}</option>;
+                            return <option key={category.id} value={category.id}>{category.name}</option>;
                           })
                           }
                       </select>
@@ -32,7 +31,7 @@ const RecipeFilter = ({title, filter, categories, onChange}) => {
 
 RecipeFilter.propTypes = {
     title: PropTypes.string.isRequired,
-    filter: PropTypes.string.isRequired,
+    filter: PropTypes.number.isRequired,
     categories: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired
 };

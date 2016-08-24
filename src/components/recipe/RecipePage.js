@@ -5,7 +5,6 @@ import * as recipeActions from '../../actions/recipeActions';
 import appTypes from '../../common/appTypes';
 import HeadTitle from '../common/HeadTitle';
 import RecipeForm from './RecipeForm';
-import RecipeDetails from './RecipeDetails';
 import toastr from 'toastr';
 import _ from 'lodash';
 
@@ -30,6 +29,10 @@ class RecipePage extends React.Component {
     }
 
     componentDidMount() {
+        if(this.props.id !== 0) {
+            this.props.actions.getRecipeById(this.props.id);
+        }
+
         this.applyBehaviours();
     }
 
@@ -51,17 +54,18 @@ class RecipePage extends React.Component {
         });
         $('select').material_select(this.updateRecipeState);
         
-        if(!this.props.details && this.state.recipe.ingredients) {
+        if(this.state.recipe.ingredients) {
             this.addIngredient(4);//limit of ingredients
         }
     }
 
     updateRecipeState(event) {
+        debugger;
         let value = "";
         let field = "";
         if(!event) {
-            field = "category";
-            value = $("select[name='category']").val();
+            field = "categoryid";
+            value = $("select[name='categoryid']").val();
         }
         else {
             value = event.target.value;
@@ -79,7 +83,7 @@ class RecipePage extends React.Component {
         if (limitRecords == 0 || ingredientList.length < limitRecords) {
             let canAddNew = !_.some(ingredientList, { entityState: 0 });
             if (canAddNew) {
-                var newRecord = { id: this.getNewId(), name: "", amount: "", entityState: 0 }; //none;
+                let newRecord = { id: this.getNewId(), name: "", amount: "", entityState: 0 }; //none;
                 recipe.ingredients = [...recipe.ingredients, newRecord];
                 this.setState({ recipe: recipe });
             }
@@ -150,9 +154,12 @@ class RecipePage extends React.Component {
         this.setState({ processing: true });
         let recipe = Object.assign({}, this.state.recipe);
         recipe.ingredients = recipe.ingredients.filter((recipe) => recipe.entityState != 0);
+        debugger;
+        //let aa = JSON.stringify(recipe);
         this.props.actions.saveRecipe(recipe)
             .then(() => this.backToList())
             .catch(error => {
+                debugger;
                 toastr.error(error);
                 this.setState({ processing: false });
                 throw(error);
@@ -160,6 +167,7 @@ class RecipePage extends React.Component {
     }
 
     backToList() {
+        debugger;
         this.setState({ processing: false });
         toastr.success('Receipe saved');
         this.context.router.push('/recipes');
@@ -176,8 +184,7 @@ class RecipePage extends React.Component {
                     <HeadTitle title="Recipe Details" navigateBack={this.previousComponent}/>
                 </div>
                 <div className="col s12">
-                    {this.props.details && <RecipeDetails recipe={this.state.recipe}/>}
-                    {!this.props.details && <RecipeForm
+                    {!this.props.loading && <RecipeForm
                         recipe={this.state.recipe}
                         categories={this.props.categories}
                         onSave={this.saveRecipe}
@@ -198,41 +205,19 @@ RecipePage.propTypes = {
     recipe: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
-    details: PropTypes.bool
+    id: PropTypes.number.isRequired,
+    loading: PropTypes.bool.isRequired
 };
 
 RecipePage.contextTypes = {
     router: PropTypes.object
 };
 
-const getRecipeById = (recipes, id) => {
-    const results = recipes.filter(recipe => recipe.id == id);
-    if (results.length > 0) return results[0];
-    return null;
-};
-
-const getRecipeBySlug = (recipes, slug) => {
-    const results = recipes.filter(recipe => recipe.slug == slug);
-    if (results.length > 0) return results[0];
-    return null;
-};
-
 const mapStateToProps = (state, ownProps) => {
-    let recipe = { id: 0, name: '', category: '', chef: '', preparation: '', raters:0, rating: 0, ingredients: []};
-    let showDetails = false;
-    if (ownProps.params.slug) {
-        const slug = ownProps.params.slug;
-        showDetails = true;
-        if (slug) {
-            recipe = getRecipeBySlug(state.recipes, slug);
-        }
-    }
-    else {
-        const recipeId = ownProps.params.id;
-        if (recipeId) {
-            recipe = getRecipeById(state.recipes, recipeId);
-        }
-    }
+    let recipe = { id: 0, name: '', categoryid: '0', chef: '', preparation: '', raters:0, rating: 0, ingredients: []};
+    let id = parseInt(ownProps.params.id || 0);
+    if(id != 0)
+        recipe = state.recipe || {};
 
     let categoriesItemList = state.categories.map(category => {
         return {
@@ -242,9 +227,10 @@ const mapStateToProps = (state, ownProps) => {
     });
 
     return {
-        recipe: recipe,
+        recipe,
         categories: categoriesItemList,
-        details: showDetails
+        loading: state.ajaxCallsInProgress > 0,
+        id
     };
 };
 

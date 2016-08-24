@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
 import RecipeCard from './RecipeCard';
 
-const RecipeList = (props) => {
+const RecipeList = ({recipes, onDelete}) => {
   return (
     <div className="row">
-        {props.recipes.map(recipe =>
+        {recipes.map(recipe =>
           <div key={recipe.id} className="col s12 m6 l4">
-            <RecipeCard recipe={recipe}/>
+            <RecipeCard recipe={recipe} onDelete={onDelete}/>
           </div>
         )}
     </div>
@@ -14,7 +14,8 @@ const RecipeList = (props) => {
 };
 
 RecipeList.propTypes = {
-  recipes: PropTypes.array.isRequired
+  recipes: PropTypes.array.isRequired,
+  onDelete: PropTypes.func.isRequired
 };
 
 export default RecipeList;

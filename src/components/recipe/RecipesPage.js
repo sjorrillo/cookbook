@@ -5,15 +5,17 @@ import * as recipeActions from '../../actions/recipeActions';
 import RecipeList from './RecipeList';
 import RecipeFilter from './controls/RecipeFilter';
 import {browserHistory, Link} from 'react-router';
+import toastr from 'toastr';
 
 class RecipesPage extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.addRecipe = this.addRecipe.bind(this);
+        this.deleteRecipe = this.deleteRecipe.bind(this);
         this.updatFilterState = this.updatFilterState.bind(this);
         this.state = {
-            category: ""
+            categoryId: 0
         };
     }
 
@@ -36,25 +38,36 @@ class RecipesPage extends React.Component {
     }
 
      updatFilterState(event) {
-        let value = "";
+        let value = 0;
         if(!event) {
-            value = $("select[name='category']").val();
+            value = parseInt($("select[name='category']").val());
         }
         else {
-            value = event.target.value;
+            value = parseInt(event.target.value);
         }
-        this.setState({ category: value });
+        this.setState({ categoryId: value });
     }
 
     addRecipe() {
         browserHistory.push('/recipe');
     }
 
+    deleteRecipe(recipe) {
+        if(confirm(`Do you want to remove the recipe: "${recipe.id} - ${recipe.name}"`)) {
+        this.props.actions.deleteRecipe(recipe.id)
+            .then(() => toastr.success("Recipe deleted"))
+            .catch(error => {
+                toastr.error(error);
+                throw(error);
+            });
+        }
+    }
+
     render() {
         let {recipes, categories, searchText} = this.props;
-        const category = this.state.category;
+        const categoryId = this.state.categoryId;
 
-        recipes = recipes.filter(recipe => (!category || category == "All" || recipe.category == category) && 
+        recipes = recipes.filter(recipe => ((categoryId || 0) == 0 || recipe.categoryid == categoryId) && 
             (!searchText || searchText == "" || (recipe.name || '').toLowerCase().includes(searchText.toLowerCase())));
 
         return (
@@ -63,7 +76,7 @@ class RecipesPage extends React.Component {
                     <div className="col s12">
                         <RecipeFilter 
                             title="List of Recipes"
-                            filter={this.state.category} 
+                            filter={this.state.categoryId} 
                             categories={categories}
                             onChange={this.updatFilterState}/>
                         <div className="fixed-action-btn fixedAddButton">
@@ -71,7 +84,7 @@ class RecipesPage extends React.Component {
                         </div>
                     </div>
                 </div>
-                <RecipeList recipes={recipes}/>
+                <RecipeList recipes={recipes} onDelete={this.deleteRecipe}/>
             </div>
         );
     }
@@ -85,7 +98,6 @@ RecipesPage.propTypes = {
 };
 
 const mapStateToPorps = (state, ownProps) => {
-
     return {
         recipes: state.recipes,
         categories: state.categories,

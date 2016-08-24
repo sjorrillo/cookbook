@@ -12,8 +12,12 @@ export const routes = (app, router, db) => {
 
     // Recipe
     const recipeController = route(recipe);
-    router.route('/recipes').get(recipeController.list);
-    router.route('/recipes/:id').get(recipeController.getById);
+    router.route('/recipes')
+        .get(recipeController.list)
+        .post(recipeController.addRecive);
+    router.route('/recipes/:id')
+        .get(recipeController.getById)
+        .delete(recipeController.deleteRecive);
     router.route('/recipes/details/:slug').get(recipeController.getBySlug);
 
     // catch-all

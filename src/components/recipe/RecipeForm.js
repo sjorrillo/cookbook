@@ -4,47 +4,7 @@ import TextArea from '../common/controls/TextArea';
 import SelectInput from '../common/controls/SelectInput';
 import RecipeIngredientList from './controls/RecipeIngredientList';
 
-// <form>
-//       <h3>Manage recipe</h3>
-//       <TextInput
-//         name="title"
-//         label="Title"
-//         value={recipe.title}
-//         onChange={onChange}
-//         error={errors.title}/>
-
-//       <SelectInput
-//         name="authorId"
-//         label="Author"
-//         value={recipe.authorId}
-//         defaultOption="Select Author"
-//         options={allAuthors}
-//         onChange={onChange} error={errors.authorId}/>
-
-//       <TextInput
-//         name="category"
-//         label="Category"
-//         value={recipe.category}
-//         onChange={onChange}
-//         error={errors.category}/>
-
-//       <TextInput
-//         name="length"
-//         label="Length"
-//         value={recipe.length}
-//         onChange={onChange}
-//         error={errors.length}/>
-
-//       <input
-//         type="submit"
-//         disabled={saving}
-//         value={saving ? 'Saving...' : 'Save'}
-//         className="btn btn-primary"
-//         onClick={onSave}/>
-//     </form>
-
 const RecipeForm = ({recipe, categories, onSave, onChange, onAddIngredient, onRemoveRecord, onUpdateIngredient, saving, errors}) => {
-
   return (
     <div>
       <div className="card-panel">
@@ -63,9 +23,9 @@ const RecipeForm = ({recipe, categories, onSave, onChange, onAddIngredient, onRe
             </div>
             <div className="row">
               <SelectInput
-                name="category"
+                name="categoryid"
                 label="Category"
-                value={recipe.category}
+                value={recipe.categoryid}
                 defaultOption="Select Category"
                 options={categories}
                 onChange={onChange} error={errors.category}

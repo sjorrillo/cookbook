@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const SelectInput = ({name, label, onChange, defaultOption, value, error, options, wrapperClass}) => {
+export const SelectInput = ({name, label, onChange, defaultOption, value, error, options, wrapperClass}) => {
    if (error && error.length > 0) {
      wrapperClass += " " + 'has-error';
    }
@@ -28,10 +28,11 @@ SelectInput.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   defaultOption: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   error: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object),
   wrapperClass: PropTypes.string
 };
-
-export default SelectInput;

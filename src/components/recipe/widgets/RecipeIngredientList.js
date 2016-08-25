@@ -1,9 +1,10 @@
-import React, {PropTypes} from 'react';
-import RecipeIngredient from './RecipeIngredient';
-import appTypes from '../../../common/appTypes';
+import React, { PropTypes } from 'react';
+import { RecipeIngredient } from './RecipeIngredient';
+import { appTypes } from '../../../common/appTypes';
 
-const RecipeIngredientList = ({ingredients, onAddIngredient, onRemoveRecord, onUpdateIngredient}) => {
-    let records = ingredients.filter((ingredient) => ingredient.entityState != 3);//no deleted
+export const RecipeIngredientList = ({ingredients, onAddIngredient, onRemoveRecord, onUpdateIngredient}) => {
+    
+    let records = ingredients.filter((ingredient) => ingredient.entityState != appTypes.trackState.deleted);
 
     return (
         <div className="row">
@@ -27,5 +28,3 @@ RecipeIngredientList.propTypes = {
     onRemoveRecord: PropTypes.func.isRequired,
     onUpdateIngredient: PropTypes.func.isRequired
 };
-
-export default RecipeIngredientList;

@@ -22,7 +22,8 @@ const db = knex({
         host: 'localhost',
         password: 'Houston'
     },
-    searchPath: 'knex,public'
+    searchPath: 'knex,public',
+    debug: false
 });
 
 // ROUTES FOR OUR API

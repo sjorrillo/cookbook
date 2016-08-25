@@ -1,0 +1,4 @@
+export const appConfig = {
+    apiUrl: 'http://localhost:3032/api',
+    maxIngredients: 10
+};

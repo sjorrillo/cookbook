@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
-import RecipeCard from './RecipeCard';
+import React, { PropTypes } from 'react';
+import { RecipeCard } from './RecipeCard';
 
-const RecipeList = ({recipes, onDelete}) => {
+export const RecipeCardList = ({recipes, onDelete}) => {
   return (
     <div className="row">
         {recipes.map(recipe =>
@@ -13,9 +13,7 @@ const RecipeList = ({recipes, onDelete}) => {
   );
 };
 
-RecipeList.propTypes = {
+RecipeCardList.propTypes = {
   recipes: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired
 };
-
-export default RecipeList;

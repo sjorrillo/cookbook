@@ -14,10 +14,13 @@ export const routes = (app, router, db) => {
     const recipeController = route(recipe);
     router.route('/recipes')
         .get(recipeController.list)
-        .post(recipeController.addRecive);
+        .post(recipeController.addRecipe);
+
     router.route('/recipes/:id')
         .get(recipeController.getById)
-        .delete(recipeController.deleteRecive);
+        .put(recipeController.updateRecipe)
+        .delete(recipeController.deleteRecipe);
+        
     router.route('/recipes/details/:slug').get(recipeController.getBySlug);
 
     // catch-all

@@ -5,12 +5,10 @@ import categories from './categoryReducer';
 import filter from './searchHeaderReducer';
 import ajaxCallsInProgress from './ajaxStatusReducer';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     recipes,
     recipe,
     categories,
     filter,
     ajaxCallsInProgress
 });
-
-export default rootReducer;

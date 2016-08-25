@@ -1,12 +1,22 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import SearchHeader from './SearchHeader';
-import LoadingDots from './controls/LoadingDots';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { SearchHeader } from './SearchHeader';
 import * as searchActions from '../../actions/searchHeaderActions';
 
-class Header extends React.Component {
+@connect(
+  (state, ownProps) => ({}), 
+  (dispatch) => ({ actions: bindActionCreators(searchActions, dispatch) })
+)
+export class Header extends React.Component {
+  static propTypes = {
+    actions: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -85,18 +95,3 @@ class Header extends React.Component {
     );
   }
 }
-
-Header.propTypes = {
-  actions: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired
-};
-
-Header.contextTypes = {
-  router: PropTypes.object.isRequired
-};
-
-const mapStateToProps = (state, ownProps) => ({});
-
-const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(searchActions, dispatch) });
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);

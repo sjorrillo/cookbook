@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const TextArea = ({name, label, onChange, placeholder, value, error, wrapperClass, showLabel = true}) => {
+export const TextArea = ({name, label, onChange, placeholder, value, error, wrapperClass, showLabel = true}) => {
   if (error && error.length > 0) {
     wrapperClass += " " + 'has-error';
   }
@@ -28,5 +28,3 @@ TextArea.propTypes = {
   wrapperClass: PropTypes.string,
   showLabel: PropTypes.bool
 };
-
-export default TextArea;

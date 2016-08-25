@@ -7,7 +7,7 @@ export const recipe = (db) => {
         let query = await db.from('recipe')
             .join('category', 'recipe.categoryid', 'category.id')
             .leftJoin('comment', 'recipe.id', 'comment.recipeid')
-            .select('recipe.*', 'category.name as category', db.raw('count(*) as nrocomments'))
+            .select('recipe.*', 'category.name as category', db.raw('sum(case when comment.id IS NULL then 0 else 1 end) as nrocomments'))
             .groupBy('recipe.id', 'category.id')
             .orderBy('recipe.id');
 
@@ -23,16 +23,14 @@ export const recipe = (db) => {
         let ingredients = db.from('ingredient')
             .where({ recipeid: recipeId })
             .select('id', 'name', 'amount');
-            
+        // let comments = db.from('comment')
+        //     .where({ recipeid: recipeId })
+        //     .select('id', 'content')
 
-        let comments = db.from('comment')
-            .where({ recipeid: recipeId })
-            .select('id', 'content')
-
-        let result = await Promise.all([recipe, ingredients, comments])
+        let result = await Promise.all([recipe, ingredients])
         let query = result[0];
         query.ingredients = result[1] || [];
-        //query.comments = result[2] || [];
+        //query.commentlist = result[2] || [];
 
         res.json(query);
     };
@@ -57,13 +55,13 @@ export const recipe = (db) => {
             
             let result = await Promise.all([ingredients, comments]);
             recipe.ingredients = result[0] || [];
-            //recipe.comments = result[1] || [];
+            recipe.commentlist = result[1] || [];
         }
 
         res.json(recipe);
     };
 
-    const addRecive = async (req, res) => {
+    const addRecipe = async (req, res) => {
         const payload = req.body;
         db.transaction(async (trx) => {
             try {
@@ -92,6 +90,10 @@ export const recipe = (db) => {
                 await trx.commit();
                 
                 recipe.id = id[0];
+                recipe.nrocomments = 0;
+                let category = await db('category').where({id: +recipe.categoryid}).first('name');
+                recipe.category = category.name;
+
                 res.json({
                     message: 'success',
                     data: recipe
@@ -103,7 +105,71 @@ export const recipe = (db) => {
         });
     };
 
-    const deleteRecive = async (req, res) => {
+    const updateRecipe = async (req, res) => {
+        const recipeId = req.params.id;
+        const payload = req.body;
+        db.transaction(async (trx) => {
+            try {
+                let recipe = {
+                        name: payload.name,
+                        slug: utils.slugify(payload.name),
+                        chef: payload.chef,
+                        preparation: payload.preparation,
+                        raters: +payload.raters,
+                        rating: +payload.rating,
+                        categoryid: +payload.categoryid
+                    };
+
+                await trx('recipe')
+                    .where({id: recipeId})
+                    .update(recipe);
+
+                for(let i = 0; i < payload.ingredients.length; i++) {
+                    const ingredient = payload.ingredients[i];
+                    // none: 0, added: 1, modified: 2, deleted: 3, unchanged: 4
+                    const trackState = parseInt(ingredient.entityState || 0);
+                    switch (trackState) {
+                        case 1: {
+                            let record = {
+                                    name: ingredient.name,
+                                    amount: ingredient.amount,
+                                    recipeid: recipeId
+                                };
+                            await trx.insert(record).into('ingredient');
+                            break;
+                        }
+                        case 2: {
+                            let record = {
+                                    name: ingredient.name,
+                                    amount: ingredient.amount,
+                                    recipeid: recipeId
+                                };
+                            await trx('ingredient').where({id: ingredient.id}).update(record);
+                            break;
+                        }
+                        case 3:{
+                            await trx.from('ingredient').where({id: ingredient.id}).del();
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                }
+
+                await trx.commit();
+                
+                res.json({
+                    message: 'success',
+                    data: recipe
+                });
+            } catch(error) {
+                await trx.rollback();
+                res.json({message: error});
+            }
+        });
+    };
+
+    const deleteRecipe = async (req, res) => {
         const recipeId = req.params.id;
         db.transaction(async (trx) => {
             try {
@@ -132,7 +198,8 @@ export const recipe = (db) => {
         list,
         getById,
         getBySlug,
-        addRecive,
-        deleteRecive
+        addRecipe,
+        updateRecipe,
+        deleteRecipe
     };
 };

@@ -1,19 +1,41 @@
 import React, {PropTypes} from 'react';
 import { bindActionCreators } from 'redux';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { browserHistory, Link } from 'react-router';
+import autobind from 'autobind-decorator';
 import * as recipeActions from '../../actions/recipeActions';
-import RecipeList from './RecipeList';
-import RecipeFilter from './controls/RecipeFilter';
-import {browserHistory, Link} from 'react-router';
+import { RecipeCardList } from './widgets/RecipeCardList';
+import { RecipeFilter } from './widgets/RecipeFilter';
+import { LoadingWheel } from '../common/controls/LoadingWheel';
+import { ConfirmDialog } from '../common/controls/ConfirmDialog';
+
 import toastr from 'toastr';
 
-class RecipesPage extends React.Component {
+const mapStateToPorps = (state, ownProps) => {
+    return {
+        recipes: state.recipes,
+        categories: state.categories,
+        searchText: state.filter || "",
+        loading: state.ajaxCallsInProgress > 0,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(recipeActions, dispatch) });
+
+@connect(mapStateToPorps, mapDispatchToProps)
+export class RecipesPage extends React.Component {
+
+    static propTypes = {
+        recipes: PropTypes.array.isRequired,
+        actions: PropTypes.object.isRequired,
+        categories: PropTypes.array.isRequired,
+        searchText: PropTypes.string.isRequired,
+        loading: PropTypes.bool.isRequired,
+    };
+
     constructor(props, context) {
         super(props, context);
-
-        this.addRecipe = this.addRecipe.bind(this);
-        this.deleteRecipe = this.deleteRecipe.bind(this);
-        this.updatFilterState = this.updatFilterState.bind(this);
+        
         this.state = {
             categoryId: 0
         };
@@ -21,6 +43,7 @@ class RecipesPage extends React.Component {
 
     componentDidMount() {
         this.applyBehaviours();
+        this.props.actions.loadRecipes();
     }
 
     componentDidUpdate() {
@@ -35,9 +58,19 @@ class RecipesPage extends React.Component {
         });
 
         $('select').material_select(this.updatFilterState);
+        
+         $('.modal-trigger').leanModal();
+        //console.log("llamo a modal trigger");
     }
 
-     updatFilterState(event) {
+    openModal() {
+         console.log("abrir modal");
+          $('#confirmationModal').openModal();
+    }
+
+    @autobind
+    updatFilterState(event) {
+        console.log("entro");
         let value = 0;
         if(!event) {
             value = parseInt($("select[name='category']").val());
@@ -52,6 +85,7 @@ class RecipesPage extends React.Component {
         browserHistory.push('/recipe');
     }
 
+    @autobind
     deleteRecipe(recipe) {
         if(confirm(`Do you want to remove the recipe: "${recipe.id} - ${recipe.name}"`)) {
         this.props.actions.deleteRecipe(recipe.id)
@@ -84,27 +118,16 @@ class RecipesPage extends React.Component {
                         </div>
                     </div>
                 </div>
-                <RecipeList recipes={recipes} onDelete={this.deleteRecipe}/>
+                {this.props.loading && <div className="row">
+                    <div className="col s12 center-align">
+                        <LoadingWheel active={this.props.loading}/>
+                    </div>
+                </div>}               
+                {!this.props.loading && <RecipeCardList recipes={recipes} onDelete={this.deleteRecipe}/>}
+
+                <button className="btn modal-trigger" onClick={this.openModal}>Modal</button> 
+                <ConfirmDialog id="confirmationModal" active={true}/>
             </div>
         );
     }
 }
-
-RecipesPage.propTypes = {
-    recipes: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired,
-    categories: PropTypes.array.isRequired,
-    searchText: PropTypes.string.isRequired
-};
-
-const mapStateToPorps = (state, ownProps) => {
-    return {
-        recipes: state.recipes,
-        categories: state.categories,
-        searchText: state.filter || ""
-    };
-};
-
-const mapDispatchToProps = (dispatch) => ({ actions: bindActionCreators(recipeActions, dispatch) });
-
-export default connect(mapStateToPorps, mapDispatchToProps)(RecipesPage);

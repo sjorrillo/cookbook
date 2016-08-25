@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
-import {config} from '../common/config';
+import { appConfig } from '../common/appConfig';
 import categoryApi from '../api/mockCategoryApi';
-import {beginAjaxCall} from './ajaxStatusActions';
+import { beginAjaxCall } from './ajaxStatusActions';
 import superagent from 'superagent';
 
 export function loadCategoriesSuccess(categories) {
@@ -12,7 +12,7 @@ export function loadCategories() {
     return (dispatch)  => {
         dispatch(beginAjaxCall());
         superagent
-            .get(`${config.apiUrl}/categories`)
+            .get(`${appConfig.apiUrl}/categories`)
             .end((err, res) => {
                 if (err) {
                      throw((res && res.body) || err);

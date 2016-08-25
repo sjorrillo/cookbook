@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 
-const SearchHeader = ({active, filter, onToggle, onChange, onSearch}) => {
+export const SearchHeader = ({active, filter, onToggle, onChange, onSearch}) => {    
     return (
-         <li className={active ? "search active": "search"}>
+        <li className={active ? "search active": "search"}>
             {!active  && <a href="javascript:void(0);" onClick={onToggle}><i className="material-icons">search</i></a>}
             {active && <form onSubmit={onSearch}>
                 <div className="input-field">
@@ -21,5 +21,3 @@ SearchHeader.propTypes = {
     onChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired
 };
-
-export default SearchHeader;

@@ -1,22 +1,16 @@
-import React, {PropTypes} from 'react';
-import RecipeComments from './RecipeComments';
-import {Link} from 'react-router';
+import React, { PropTypes } from 'react';
+import { RecipeComments } from './widgets/RecipeComments';
+import { CardTool } from './widgets/CardTool';
+import { Link } from 'react-router';
 
-const RecipeDetails = ({recipe}) => {
-    debugger;
+export const RecipeDetails = ({recipe, onDelete}) => {
   return (
       <div>
         <div className="card white details">
             <div className="card-content">
                 <div className="card-title menu">
                     <a to={'/recipe/' + recipe.slug} className="truncate">{recipe.name}</a> 
-                    <div className="card-tool">
-                        <a className="dropdown-button grey-text right" href="javascript:void(0);" data-activates="dropdown1sdf"><i className="material-icons">more_vert</i></a>
-                        <ul id="dropdown1sdf" className="dropdown-content">
-                            <li><Link to={"/recipe/edit/" + recipe.id}>Edit</Link></li>
-                            <li><a href="#!">Delete</a></li>
-                        </ul>
-                    </div> 
+                    <CardTool recipe={recipe} onDelete={onDelete}/>
                 </div>
                 <div className="card-action grey-text darken-1">
                     <a href="javascript:void(0);" className="disabled"><i className="material-icons">label_outline</i><span>{recipe.category}</span></a>
@@ -36,13 +30,12 @@ const RecipeDetails = ({recipe}) => {
                 <div className="grey-text text-darken-1">Currently rated {recipe.rating} by {recipe.raters} people</div>
             </div>
         </div>
-        {recipe.comments && <RecipeComments comments={recipe.comments}/>}
+        {recipe.commentlist && <RecipeComments comments={recipe.commentlist}/>}
      </div>
   );
 };
 
 RecipeDetails.propTypes = {
-  recipe: PropTypes.object.isRequired
+  recipe: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired
 };
-
-export default RecipeDetails;

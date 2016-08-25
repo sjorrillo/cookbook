@@ -1,7 +1,6 @@
 import React from 'react';
 
-class AboutPage extends React.Component {
-  render() {
+export const AboutPage = () => {
     return (
       <div className="row">
         <div className="col s12">
@@ -12,7 +11,4 @@ class AboutPage extends React.Component {
         </div>
       </div>
     );
-  }
-}
-
-export default AboutPage;
+};

@@ -1,10 +1,10 @@
-import React, {PropTypes} from 'react';
-import TextInput from '../common/controls/TextInput';
-import TextArea from '../common/controls/TextArea';
-import SelectInput from '../common/controls/SelectInput';
-import RecipeIngredientList from './controls/RecipeIngredientList';
+import React, { PropTypes } from 'react';
+import { TextInput } from '../common/controls/TextInput';
+import { TextArea } from '../common/controls/TextArea';
+import { SelectInput } from '../common/controls/SelectInput';
+import { RecipeIngredientList } from './widgets/RecipeIngredientList';
 
-const RecipeForm = ({recipe, categories, onSave, onChange, onAddIngredient, onRemoveRecord, onUpdateIngredient, saving, errors}) => {
+export const RecipeForm = ({recipe, categories, onSave, onChange, onAddIngredient, onRemoveRecord, onUpdateIngredient, saving, errors}) => {
   return (
     <div>
       <div className="card-panel">
@@ -90,7 +90,5 @@ RecipeForm.propTypes = {
   saving: PropTypes.bool,
   errors: PropTypes.object
 };
-
-export default RecipeForm;
 
 

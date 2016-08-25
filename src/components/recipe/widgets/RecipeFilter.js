@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const RecipeFilter = ({title, filter, categories, onChange}) => {
+export const RecipeFilter = ({title, filter, categories, onChange}) => {
     return (
         <div className="grey lighten-5">
           <div className="row valign-wrapper head-title">
@@ -35,5 +35,3 @@ RecipeFilter.propTypes = {
     categories: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired
 };
-
-export default RecipeFilter;

@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
-import TextInput from '../../common/controls/TextInput';
+import React, { PropTypes } from 'react';
+import { TextInput } from '../../common/controls/TextInput';
 
-const RecipeIngredient = ({ingredient, onChange, onAddRecord, onRemoveRecord, errors, addState = true}) => {
+export const RecipeIngredient = ({ingredient, onChange, onAddRecord, onRemoveRecord, errors, addState = true}) => {
     return (
         <div className="row">
              <TextInput
@@ -38,5 +38,3 @@ RecipeIngredient.propTypes = {
     errors: PropTypes.object,
     addState: PropTypes.bool
 };
-
-export default RecipeIngredient;

@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
-import {config} from '../common/config';
+import { appConfig } from '../common/appConfig';
 import recipeApi from '../api/mockRecipeApi';
-import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
+import { beginAjaxCall, ajaxCallError } from './ajaxStatusActions';
 import superagent from 'superagent';
 
 export function loadRecipesSuccess(recipes) {
@@ -28,7 +28,7 @@ export function loadRecipes() {
     return (dispatch)  => {
         dispatch(beginAjaxCall());
         superagent
-            .get(`${config.apiUrl}/recipes`)
+            .get(`${appConfig.apiUrl}/recipes`)
             .end((err, res) => {
                 if (err) {
                      throw((res && res.body) || err);
@@ -43,7 +43,7 @@ export function getRecipeBySlug(slug) {
     return (dispatch) => {
         dispatch(beginAjaxCall());
         superagent
-            .get(`${config.apiUrl}/recipes/details/${slug}`)
+            .get(`${appConfig.apiUrl}/recipes/details/${slug}`)
             .end((err, res) => {
                 if (err) {
                      throw((res && res.body) || err);
@@ -58,7 +58,7 @@ export function getRecipeById(id) {
     return (dispatch) => {
         dispatch(beginAjaxCall());
         superagent
-            .get(`${config.apiUrl}/recipes/${id}`)
+            .get(`${appConfig.apiUrl}/recipes/${id}`)
             .end((err, res) => {
                 if (err) {
                      throw((res && res.body) || err);
@@ -75,9 +75,8 @@ export function deleteRecipe(id) {
         dispatch(beginAjaxCall());
         return new Promise((resolve, reject) => {
             superagent
-                .del(`${config.apiUrl}/recipes/${id}`)
+                .del(`${appConfig.apiUrl}/recipes/${id}`)
                 .end((err, res) => {
-                    debugger;
                     if (err) {
                         reject((res && res.body) || err);
                         throw((res && res.body) || err);
@@ -94,13 +93,9 @@ export function saveRecipe(recipe) {
     return function(dispatch, getState) {
         dispatch(beginAjaxCall());
         return new Promise((resolve, reject) => {
-            // recipe.id 
-            //     ? dispatch(updateRecipeSuccess(savedRecipe))
-            //     : dispatch(createRecipeSuccess(savedRecipe));
-            debugger;
             if(recipe.id) {
                  superagent
-                    .put(`${config.apiUrl}/recipes`)
+                    .put(`${appConfig.apiUrl}/recipes/${recipe.id}`)
                     .set('Content-Type', 'application/json')
                     .send(recipe)
                     .end((err, res) => {
@@ -115,11 +110,10 @@ export function saveRecipe(recipe) {
             }
             else {
                 superagent
-                    .post(`${config.apiUrl}/recipes`)
+                    .post(`${appConfig.apiUrl}/recipes`)
                     .set('Content-Type', 'application/json')
                     .send(recipe)
                     .end((err, res) => {
-                        debugger;
                         if (err) {
                             reject((res && res.body) || err);
                             throw((res && res.body) || err);

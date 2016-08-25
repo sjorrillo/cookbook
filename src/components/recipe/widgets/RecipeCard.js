@@ -1,8 +1,9 @@
-import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
+import { CardTool } from './CardTool';
 import _ from 'lodash';
 
-const RecipeCard = ({recipe, onDelete}) => {
+export const RecipeCard = ({recipe, onDelete}) => {
     const content = _.truncate(recipe.preparation, { length: 250 });
     const dropdownId = `dropdown_${recipe.id}`;
 
@@ -11,13 +12,7 @@ const RecipeCard = ({recipe, onDelete}) => {
             <div className="card-content">
                 <div className="card-title menu">
                     <Link to={'/recipe/' + recipe.slug} className="truncate">{recipe.name}</Link>
-                    <div className="card-tool">
-                        <a className="dropdown-button grey-text right" href="javascript:void(0);" data-activates={dropdownId}><i className="material-icons">more_vert</i></a>
-                        <ul id={dropdownId} className="dropdown-content">
-                            <li><Link to={"/recipe/edit/" + recipe.id}>Edit</Link></li>
-                            <li><a href="javascript:void(0);" onClick={onDelete.bind(this, recipe)}>Delete</a></li>
-                        </ul>
-                    </div>
+                    <CardTool recipe={recipe} onDelete={onDelete}/>
                 </div>
                 <div className="grey-text text-darken-2 description">{content}</div>
                 <div className="grey-text text-darken-1">Currently rated {recipe.rating} by {recipe.raters} people</div>
@@ -35,5 +30,3 @@ RecipeCard.propTypes = {
     recipe: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired
 };
-
-export default RecipeCard;

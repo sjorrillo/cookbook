@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const TextInput = ({name, label, onChange, placeholder, value, error, wrapperClass, prefixIcon = ""}) => {
+export const TextInput = ({name, label, onChange, placeholder, value, error, wrapperClass, prefixIcon = ""}) => {
   if (error && error.length > 0) {
     wrapperClass += " " + 'has-error';
   }
@@ -30,5 +30,3 @@ TextInput.propTypes = {
   wrapperClass: PropTypes.string,
   prefixIcon: PropTypes.string
 };
-
-export default TextInput;

@@ -6,20 +6,20 @@ export default function recipesReducer(state = [], action) {
         case types.LOAD_RECIPES_SUCCESS:
             return action.recipes;
     
-        case types.CREATE_RECIPE_SUCCESS:
-            return [
-                ...state, 
-                Object.assign({}, action.recipe)
-            ];
+        // case types.CREATE_RECIPE_SUCCESS:
+        //     return [
+        //         ...state, 
+        //         Object.assign({}, action.recipe)
+        //     ];
 
-        case types.UPDATE_RECIPE_SUCCESS: {
-            let recipes = [...state];
-            let recipe = _.find(recipes, (x) =>  x.id == action.recipe.id);
-            const index = _.indexOf(recipes, recipe);
-            recipes.splice(index, 1, action.recipe);
+        // case types.UPDATE_RECIPE_SUCCESS: {
+        //     let recipes = [...state];
+        //     let recipe = _.find(recipes, (x) =>  x.id == action.recipe.id);
+        //     const index = _.indexOf(recipes, recipe);
+        //     recipes.splice(index, 1, action.recipe);
 
-            return recipes;
-        }
+        //     return recipes;
+        // }
 
          case types.DELETE_RECIPE_SUCCESS: {
             let recipes = [...state];

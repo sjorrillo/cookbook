@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
-const RecipeComments = ({comments}) => {
+export const RecipeComments = ({comments}) => {
   return (
         <div className="card white">
             <div className="card-content">
@@ -25,5 +25,3 @@ const RecipeComments = ({comments}) => {
 RecipeComments.propTypes = {
   comments: PropTypes.array.isRequired
 };
-
-export default RecipeComments;

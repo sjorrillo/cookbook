@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Footer = () => {
+export const Footer = () => {
     const year = new Date().getFullYear();
     return (
         <footer className="page-footer white">
@@ -12,5 +12,3 @@ const Footer = () => {
         </footer>
     );
 };
-
-export default Footer;

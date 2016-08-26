@@ -19,7 +19,8 @@ export const routes = (app, router, db) => {
     router.route('/recipes/:id')
         .get(recipeController.getById)
         .put(recipeController.updateRecipe)
-        .delete(recipeController.deleteRecipe);
+        .delete(recipeController.deleteRecipe)
+        .patch(recipeController.rateRecipe);
         
     router.route('/recipes/details/:slug').get(recipeController.getBySlug);
 

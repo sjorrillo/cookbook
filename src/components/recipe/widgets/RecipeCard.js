@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { CardTool } from './CardTool';
+import { Rating } from '../../common/controls/Rating'
 import _ from 'lodash';
 
 export const RecipeCard = ({recipe, onDelete}) => {
@@ -15,7 +16,9 @@ export const RecipeCard = ({recipe, onDelete}) => {
                     <CardTool recipe={recipe} onDelete={onDelete}/>
                 </div>
                 <div className="grey-text text-darken-2 description">{content}</div>
-                <div className="grey-text text-darken-1">Currently rated {recipe.rating} by {recipe.raters} people</div>
+                <div className="rating-section">
+                    <Rating disabled={true} rating={recipe.rating} raters={recipe.raters}/>
+                </div>
             </div>
             <div className="card-action grey-text darken-1">
                 <a href="javascript:void(0);" className="disabled"><i className="material-icons">label_outline</i><span>{recipe.category}</span></a>

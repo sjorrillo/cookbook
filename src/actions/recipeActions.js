@@ -89,6 +89,26 @@ export function deleteRecipe(id) {
     };
 }
 
+export function rateRecipe(ratedRecipe) {
+    return function(dispatch) {
+        return new Promise((resolve, reject) => {
+            superagent
+                .patch(`${appConfig.apiUrl}/recipes/${ratedRecipe.id}`)
+                .set('Content-Type', 'application/json')
+                .send(ratedRecipe)
+                .end((err, res) => {
+                    if (err) {
+                        reject((res && res.body) || err);
+                        throw((res && res.body) || err);
+                    } else {
+                        dispatch(updateRecipeSuccess(res.body.data));
+                        resolve(res.body.data);
+                    }
+                });
+        });
+    };
+}
+
 export function saveRecipe(recipe) {
     return function(dispatch, getState) {
         dispatch(beginAjaxCall());

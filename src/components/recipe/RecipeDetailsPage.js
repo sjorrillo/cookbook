@@ -36,9 +36,10 @@ export class RecipeDetailsPage extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-
+        
         this.state = {
-            recipe: Object.assign({}, this.props.recipe)
+            recipe: Object.assign({}, this.props.recipe),
+            showYourRating: false,
         };
     }
 
@@ -84,18 +85,48 @@ export class RecipeDetailsPage extends React.Component {
     }
 
     @autobind
+    ratingRecipe(rating) {
+        let recipe = this.state.recipe;
+        let ratedRecipe = {
+            id: recipe.id,
+            rating: rating
+        };
+
+    //      let record =  Object.assign({}, this.state.recipe);
+    //   record.rating = rating;
+    //     this.setState({recipe: record});//, showYourRating: true}); 
+        this.props.actions.rateRecipe(ratedRecipe)
+            .then((obj) => {
+                //let record =  Object.assign({}, this.state.recipe);
+                //record.rating = rating;
+                console.log("termino el rating: " + rating);
+                //this.setState({recipe: record, showYourRating: true});
+            })
+            .catch(error => {
+                toastr.error(error);
+                throw(error);
+            });
+    }
+
+    @autobind
     previousComponent() {
         this.context.router.goBack();
     }
 
     render() {
+        console.log("update details");
         return (
             <div className="row">
                 <div className="col s12">
                     <HeadTitle title="Recipe Details" navigateBack={this.previousComponent}/>
                 </div>
                 <div className="col s12">
-                    {!this.props.loading && <RecipeDetails recipe={this.state.recipe} onDelete={this.deleteRecipe}/>}
+                    {!this.props.loading && <RecipeDetails 
+                        recipe={this.state.recipe} 
+                        onDelete={this.deleteRecipe} 
+                        onRatingClick={this.ratingRecipe} 
+                        showYourRating={this.state.showYourRating}
+                        disabled={this.state.showYourRating}/>}
                 </div>
             </div>
         );

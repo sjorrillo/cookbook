@@ -29,7 +29,7 @@ export default function recipesReducer(state = [], action) {
 
             return recipes;
         }
-        
+
         default:
             return state;
     }

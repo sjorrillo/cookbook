@@ -194,12 +194,44 @@ export const recipe = (db) => {
         });
     };
 
+    const rateRecipe = async (req, res) => {
+        const recipeId = req.params.id;
+        const payload = req.body;
+        try {
+            let recipe = await db.from('recipe').where({id: +recipeId}).first();
+            if(payload.rating) {
+                let raters = recipe.raters;
+               
+                let starts = ((+recipe.rating * raters) + (+payload.rating)) / (raters + 1);
+                starts = starts.toFixed(2);
+                let ratedRecord = {
+                        raters: raters + 1,
+                        rating: starts
+                    };
+                
+                await db('recipe')
+                    .where({id: recipeId})
+                    .update(ratedRecord);
+                
+                recipe.raters = ratedRecord.raters;
+                recipe.rating = ratedRecord.rating;
+            }
+            res.json({
+                message: 'success',
+                data: recipe
+            });
+        } catch(error) {
+            res.json({message: error});
+        }
+    };
+
     return {
         list,
         getById,
         getBySlug,
         addRecipe,
         updateRecipe,
-        deleteRecipe
+        deleteRecipe,
+        rateRecipe
     };
 };

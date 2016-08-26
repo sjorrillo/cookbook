@@ -24,7 +24,9 @@ export default {
         new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin({
             $: "jquery",
-            jQuery: "jquery"
+            jQuery: "jquery",
+            "window.$": "jquery",
+            "window.jQuery": "jquery"
         })
     ],
     module: {

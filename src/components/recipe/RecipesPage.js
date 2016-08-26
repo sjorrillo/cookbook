@@ -17,6 +17,7 @@ const mapStateToPorps = (state, ownProps) => {
         categories: state.categories,
         searchText: state.filter || "",
         loading: state.ajaxCallsInProgress > 0,
+        deletingMessage: ""
     };
 };
 
@@ -31,13 +32,28 @@ export class RecipesPage extends React.Component {
         categories: PropTypes.array.isRequired,
         searchText: PropTypes.string.isRequired,
         loading: PropTypes.bool.isRequired,
+        deleteSettings: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            message: PropTypes.string.isRequired,
+            objectId: PropTypes.oneOfType([
+                PropTypes.number.isRequired,
+                PropTypes.string.isRequired
+            ]),
+        })
     };
 
     constructor(props, context) {
         super(props, context);
         
         this.state = {
-            categoryId: 0
+            categoryId: 0,
+            deleteSettings: {
+                id: 'confirmationModal',
+                title: 'Delete Recipe',
+                message: '',
+                objectId: 0
+            }
         };
     }
 
@@ -58,14 +74,6 @@ export class RecipesPage extends React.Component {
         });
 
         $('select').material_select(this.updatFilterState);
-        
-         $('.modal-trigger').leanModal();
-        //console.log("llamo a modal trigger");
-    }
-
-    openModal() {
-         console.log("abrir modal");
-          $('#confirmationModal').openModal();
     }
 
     @autobind
@@ -86,21 +94,29 @@ export class RecipesPage extends React.Component {
     }
 
     @autobind
-    deleteRecipe(recipe) {
-        if(confirm(`Do you want to remove the recipe: "${recipe.id} - ${recipe.name}"`)) {
-        this.props.actions.deleteRecipe(recipe.id)
+    confirmDeleteRecipe(recipe) {
+        let settings = Object.assign({}, this.state.deleteSettings);
+        settings.message = `Are you sure you want to remove the recipe: "${recipe.name}"`;
+        settings.objectId = recipe.id;
+        this.setState({deleteSettings: settings});
+        $(`#${this.state.deleteSettings.id}`).openModal();
+    }
+
+    @autobind
+    deleteRecipe(id) {
+       if(id) {
+            this.props.actions.deleteRecipe(id)
             .then(() => toastr.success("Recipe deleted"))
             .catch(error => {
                 toastr.error(error);
                 throw(error);
             });
-        }
+       }
     }
 
     render() {
         let {recipes, categories, searchText} = this.props;
         const categoryId = this.state.categoryId;
-
         recipes = recipes.filter(recipe => ((categoryId || 0) == 0 || recipe.categoryid == categoryId) && 
             (!searchText || searchText == "" || (recipe.name || '').toLowerCase().includes(searchText.toLowerCase())));
 
@@ -123,10 +139,15 @@ export class RecipesPage extends React.Component {
                         <LoadingWheel active={this.props.loading}/>
                     </div>
                 </div>}               
-                {!this.props.loading && <RecipeCardList recipes={recipes} onDelete={this.deleteRecipe}/>}
+                {!this.props.loading && <RecipeCardList recipes={recipes} onDelete={this.confirmDeleteRecipe}/>}
 
-                <button className="btn modal-trigger" onClick={this.openModal}>Modal</button> 
-                <ConfirmDialog id="confirmationModal" active={true}/>
+                 <ConfirmDialog 
+                    id={this.state.deleteSettings.id} 
+                    title={this.state.deleteSettings.title} 
+                    message={this.state.deleteSettings.message}
+                    objectId={this.state.deleteSettings.objectId}
+                    onOkAction={this.deleteRecipe}
+                    />
             </div>
         );
     }

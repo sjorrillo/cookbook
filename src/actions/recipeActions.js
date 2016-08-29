@@ -99,7 +99,7 @@ export function saveRecipe(recipe) {
                     .send(recipe)
                     .end((err, res) => {
                         if (err || res.statusCode == 500) {
-                            reject((res && res.body) || err);
+                            reject((res.body && res.body.data) || err);
                             throw((res && res.body) || err);
                         } else {
                             dispatch(updateRecipeSuccess(res.body.data));

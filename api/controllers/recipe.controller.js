@@ -22,6 +22,7 @@ export const recipe = (session) => {
             if(!recipe) {
                 let message = utils.messageResponse(appTypes.statusMessage.failure, 'Not found');
                 res.status(404).json(message);
+                return;
             }
             res.json(recipe);
         } catch(error) {
@@ -37,6 +38,7 @@ export const recipe = (session) => {
              if(!recipe) {
                 let message = utils.messageResponse(appTypes.statusMessage.failure, 'Not found');
                 res.status(404).json(message);
+                return;
             }
             res.json(recipe);
         } catch(error) {
@@ -51,7 +53,8 @@ export const recipe = (session) => {
             let exists = await recipeRepositoy.existsRecipe(0, payload.name);
             if(exists) {
                 let message = utils.messageResponse(appTypes.statusMessage.failure, "The recipe's name exists in the database");
-                res.status(400).json(message)
+                res.status(400).json(message);
+                return;
             }
 
             let recipe = {
@@ -73,9 +76,16 @@ export const recipe = (session) => {
     };
 
     const updateRecipe = async (req, res) => {
-        const recipeId = req.params.id;
+        const recipeId = +req.params.id;
         const payload = req.body;
         try {
+            let exists = await recipeRepositoy.existsRecipe(recipeId, payload.name);
+            if(exists) {
+                let message = utils.messageResponse(appTypes.statusMessage.failure, "The recipe's name exists in the database");
+                res.status(400).json(message);
+                return;
+            }
+
             let recipe = {
                 name: payload.name,
                 slug: utils.slugify(payload.name),

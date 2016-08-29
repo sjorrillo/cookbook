@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import autobind from 'autobind-decorator';
+import { locals, cf, g } from '../../../styles/rating.scss';
 
 export class Rating extends React.Component {
 
@@ -98,18 +99,17 @@ export class Rating extends React.Component {
             stars.push(
                 <path {...attrs}
                     key={`star-${i}`}
-                    mask="url(#half-star-mask)"
                     d="m0,18.1l19.1,0l5.9,-18.1l5.9,18.1l19.1,0l-15.4,11.2l5.9,18.1l-15.4,-11.2l-15.4,11.2l5.9,-18.1l-15.4,-11.2l0,0z" />
             );
         }
 
-        var styles = {
+        var svgStyles = {
             width: `${stars.length * this.state.size}px`,
             height: `${this.state.size}px`
         };
 
         return (
-            <svg style={styles}
+            <svg style={svgStyles}
                 viewBox={`0 0 ${stars.length} 50`}
                 preserveAspectRatio="xMinYMin meet"
                 version="1.1"
@@ -131,16 +131,16 @@ export class Rating extends React.Component {
         const {rating, raters, disabled, showYourRating} = this.state;
         let caption = !showYourRating ? `Currently rated ${rating} by ${raters} people`: `Your rate ${rating}`;
         let attrs = {};
-        let ratingClass = "rating";
+        let ratingClass = locals.rating;
         if (!disabled) {
             attrs['onMouseMove'] = this.handleMouseMove;
             attrs['onMouseLeave'] = this.handleMouseLeave;
             attrs['onClick'] = this.handleClick;
-            ratingClass += " active";
+            ratingClass += ` ${locals.active}`;
         }
 
         return (
-            <div className="grey-text text-darken-1 rating-container">
+            <div className={cf(g('grey-text text-darken-1')) + ' ' + locals.ratingContainer}>
                 <span ref="wrapper">
                     <span className={ratingClass} {...attrs}>
                         {this.getSvg(rating) }

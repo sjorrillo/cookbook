@@ -111,17 +111,3 @@ h5.header {
     margin-bottom: 6px;
     border-bottom:1px solid #e0e0e0;
 }
-
-/*Rating*/
-.rating-container > span {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.rating-container > span:last-child {
-    padding-left: 8px;
-}
-
-.rating-container .rating.active{
-   cursor: pointer; 
-}

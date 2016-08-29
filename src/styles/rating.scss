@@ -1,0 +1,14 @@
+.ratingContainer {
+    > span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    > span:last-child {
+        padding-left: 8px;
+    }
+
+    .rating.active {
+        cursor: pointer; 
+    }
+}

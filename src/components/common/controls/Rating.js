@@ -24,7 +24,6 @@ export class Rating extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        console.log("entro al constructor");
         this.state = {
             size: props.size,
             totalStars: props.totalStars,

@@ -78,7 +78,6 @@ export class RecipesPage extends React.Component {
 
     @autobind
     updatFilterState(event) {
-        console.log("entro");
         let value = 0;
         if(!event) {
             value = parseInt($("select[name='category']").val());

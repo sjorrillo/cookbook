@@ -178,6 +178,10 @@ export const recipe = (db) => {
                     .where({recipeid: recipeId})
                     .del();
 
+                await trx.from('comment')
+                    .where({recipeid: recipeId})
+                    .del(); 
+
                 await trx.from('recipe')
                     .where({id: recipeId})
                     .del(); 
@@ -225,6 +229,37 @@ export const recipe = (db) => {
         }
     };
 
+    const addComment = async (req, res) => {
+        const recipeId = req.params.id;
+        const payload = req.body;
+        let comment = {
+            recipeid: recipeId,
+            content: payload.content
+        };
+
+        const id = await db.insert(comment, "id").into('comment');
+        comment.id = id;
+
+        res.json({
+            message: 'success',
+            data: comment
+        });
+    };
+
+    const deleteComment = async (req, res) => {
+        const recipeId = req.params.id;
+        const payload = req.body;
+       
+        const deletedItems = await db.from('comment')
+            .where({id: payload.id, recipeid: recipeId})
+            .del();
+
+        res.json({
+            message: 'success',
+            data: deletedItems
+        });
+    };
+
     return {
         list,
         getById,
@@ -232,6 +267,8 @@ export const recipe = (db) => {
         addRecipe,
         updateRecipe,
         deleteRecipe,
-        rateRecipe
+        rateRecipe,
+        addComment,
+        deleteComment
     };
 };

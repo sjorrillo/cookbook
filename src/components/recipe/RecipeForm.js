@@ -54,7 +54,7 @@ export const RecipeForm = ({recipe, categories, onSave, onChange, onAddIngredien
               <TextArea
                 name="preparation"
                 label="Description of Preparation"
-                placeholder="Oh WoW! Let me check this one too."
+                placeholder="Description"
                 value={recipe.preparation}
                 onChange={onChange}
                 error={errors.preparation}

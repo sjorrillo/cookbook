@@ -22,6 +22,10 @@ export const routes = (app, router, db) => {
         .delete(recipeController.deleteRecipe)
         .patch(recipeController.rateRecipe);
         
+    router.route('/recipes/:id/comments')
+        .put(recipeController.addComment)
+        .delete(recipeController.deleteComment);
+
     router.route('/recipes/details/:slug').get(recipeController.getBySlug);
 
     // catch-all

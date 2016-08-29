@@ -5,6 +5,7 @@ import * as recipeActions from '../../actions/recipeActions';
 import { appTypes } from '../../common/appTypes';
 import { HeadTitle } from '../common/HeadTitle';
 import { RecipeDetails } from './RecipeDetails';
+import { ConfirmDialog } from '../common/controls/ConfirmDialog';
 import autobind from 'autobind-decorator';
 import toastr from 'toastr';
 import _ from 'lodash';
@@ -27,7 +28,16 @@ export class RecipeDetailsPage extends React.Component {
         recipe: PropTypes.object.isRequired,
         actions: PropTypes.object.isRequired,
         slug: PropTypes.string.isRequired,
-        loading: PropTypes.bool.isRequired
+        loading: PropTypes.bool.isRequired,
+        deleteSettings: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            message: PropTypes.string.isRequired,
+            objectId: PropTypes.oneOfType([
+                PropTypes.number.isRequired,
+                PropTypes.string.isRequired
+            ]),
+        })
     };
 
     static contextTypes = {
@@ -36,10 +46,19 @@ export class RecipeDetailsPage extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        
+
         this.state = {
             recipe: Object.assign({}, this.props.recipe),
+            newComment: { id: 0, content: '' },
+            savingComment: false,
             showYourRating: false,
+            deletingRecipe: false,
+            deleteSettings: {
+                id: 'confirmationModal',
+                title: 'Delete Comment',
+                message: '',
+                objectId: 0
+            }
         };
     }
 
@@ -73,14 +92,23 @@ export class RecipeDetailsPage extends React.Component {
     }
 
     @autobind
-    deleteRecipe(recipe) {
-        if(confirm(`Do you want to remove the recipe: "${recipe.id} - ${recipe.name}"`)) {
-        this.props.actions.deleteRecipe(recipe.id)
-            .then(() => this.backToList())
-            .catch(error => {
-                toastr.error(error);
-                throw(error);
-            });
+    confirmDeleteRecipe(recipe) {
+        let settings = Object.assign({}, this.state.deleteSettings);
+        settings.title = "Delete Recipe";
+        settings.message = `Are you sure you want to remove the recipe: "${recipe.name}"`;
+        settings.objectId = recipe.id;
+        this.setState({ deleteSettings: settings, deletingRecipe: true });
+        $(`#${this.state.deleteSettings.id}`).openModal();
+    }
+
+    deleteRecipe(id) {
+        if (id) {
+            this.props.actions.deleteRecipe(id)
+                .then(() => this.backToList())
+                .catch(error => {
+                    toastr.error(error);
+                    throw (error);
+                });
         }
     }
 
@@ -92,19 +120,13 @@ export class RecipeDetailsPage extends React.Component {
             rating: rating
         };
 
-    //      let record =  Object.assign({}, this.state.recipe);
-    //   record.rating = rating;
-    //     this.setState({recipe: record});//, showYourRating: true}); 
         this.props.actions.rateRecipe(ratedRecipe)
             .then((obj) => {
-                //let record =  Object.assign({}, this.state.recipe);
-                //record.rating = rating;
                 console.log("termino el rating: " + rating);
-                //this.setState({recipe: record, showYourRating: true});
             })
             .catch(error => {
                 toastr.error(error);
-                throw(error);
+                throw (error);
             });
     }
 
@@ -113,21 +135,111 @@ export class RecipeDetailsPage extends React.Component {
         this.context.router.goBack();
     }
 
+    //Comments
+    @autobind
+    addComment(event) {
+        event.preventDefault();
+        this.setState({ savingComment: true });
+        let comment = Object.assign({}, this.state.newComment);
+        comment.recipeid = this.state.recipe.id;
+        this.props.actions.commentRecipe(comment)
+            .then((obj) => {
+                this.addCommentToRecipe(obj);
+            })
+            .catch(error => {
+                this.setState({ savingComment: false });
+                toastr.error(error);
+                throw (error);
+            });
+    }
+
+    @autobind
+    confirmDeleteComment(comment) {
+        let settings = Object.assign({}, this.state.deleteSettings);
+        settings.title = "Delete Comment";
+        settings.message = `Are you sure you want to remove the comment: "${comment.id}"`;
+        settings.objectId = comment.id;
+        this.setState({ deleteSettings: settings, deletingRecipe: false });
+        $(`#${this.state.deleteSettings.id}`).openModal();
+    }
+
+    deleteComment(id) {
+        this.props.actions.deleteComment(this.state.recipe.id, id)
+            .then((obj) => {
+                this.deleteCommentFromRecipe(id);
+            })
+            .catch(error => {
+                toastr.error(error);
+                throw (error);
+            });
+    }
+
+    @autobind
+    processDelete(id) {
+        if(this.state.deletingRecipe) {
+            this.deleteRecipe(id);
+            return;
+        }
+        this.deleteComment(id);
+    }
+
+    @autobind
+    updateCommentState(event) {
+        let comment = this.state.newComment;
+        let field = event.target.name;
+        comment[field] = event.target.value;
+        this.setState({ newComment: comment });
+    }
+
+    addCommentToRecipe(comment) {
+        let recipe = this.state.recipe;
+        let comments = [...recipe.commentlist, comment];
+        recipe.commentlist = comments;
+        this.setState({
+            recipe: recipe,
+            newComment: { id: 0, content: '' },
+            savingComment: false
+        });
+    }
+
+    deleteCommentFromRecipe(id) {
+        let recipe = this.state.recipe;
+        let comments = [...recipe.commentlist];
+
+        recipe.commentlist = comments.filter((comment) => comment.id != id);
+        this.setState({
+            recipe: recipe
+        });
+    }
+
     render() {
-        console.log("update details");
         return (
             <div className="row">
                 <div className="col s12">
                     <HeadTitle title="Recipe Details" navigateBack={this.previousComponent}/>
                 </div>
                 <div className="col s12">
-                    {!this.props.loading && <RecipeDetails 
-                        recipe={this.state.recipe} 
-                        onDelete={this.deleteRecipe} 
-                        onRatingClick={this.ratingRecipe} 
+                    {!this.props.loading && <RecipeDetails
+                        recipe={this.state.recipe}
+                        onDelete={this.confirmDeleteRecipe}
+                        onRatingClick={this.ratingRecipe}
                         showYourRating={this.state.showYourRating}
-                        disabled={this.state.showYourRating}/>}
+                        disabled={this.state.showYourRating}
+                        newComment={this.state.newComment}
+                        onAddComment={this.addComment}
+                        onDeleteComment={this.confirmDeleteComment}
+                        onChange={this.updateCommentState}
+                        saving={this.state.savingComment}
+                        />}
                 </div>
+
+                <ConfirmDialog
+                    id={this.state.deleteSettings.id}
+                    title={this.state.deleteSettings.title}
+                    message={this.state.deleteSettings.message}
+                    objectId={this.state.deleteSettings.objectId}
+                    onOkAction={this.processDelete}
+                    />
             </div>
         );
     }

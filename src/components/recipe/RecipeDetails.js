@@ -4,7 +4,7 @@ import { CardTool } from './widgets/CardTool';
 import { Rating } from '../common/controls/Rating'
 import { Link } from 'react-router';
 
-export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating}) => {
+export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating, newComment, onAddComment, onDeleteComment, onChange, saving}) => {
     const comments = (recipe.commentlist || []).length;
     return (
         <div>
@@ -38,7 +38,7 @@ export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating})
                     </div>
                 </div>
             </div>
-            {recipe.commentlist && <RecipeComments comments={recipe.commentlist}/>}
+            {recipe.commentlist && <RecipeComments comments={recipe.commentlist} newComment={newComment} onAddComment={onAddComment} onDeleteComment={onDeleteComment} onChange={onChange} saving={saving}/>}
         </div>
     );
 };
@@ -47,5 +47,10 @@ RecipeDetails.propTypes = {
     recipe: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
     onRatingClick: PropTypes.func.isRequired,
-    showYourRating: PropTypes.bool
+    showYourRating: PropTypes.bool,
+    newComment: PropTypes.object.isRequired, 
+    onAddComment: PropTypes.func.isRequired, 
+    onDeleteComment: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired, 
+    saving: PropTypes.bool.isRequired
 };

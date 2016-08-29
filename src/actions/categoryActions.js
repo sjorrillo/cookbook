@@ -1,6 +1,5 @@
 import * as types from './actionTypes';
 import { appConfig } from '../common/appConfig';
-import categoryApi from '../api/mockCategoryApi';
 import { beginAjaxCall } from './ajaxStatusActions';
 import superagent from 'superagent';
 
@@ -14,8 +13,8 @@ export function loadCategories() {
         superagent
             .get(`${appConfig.apiUrl}/categories`)
             .end((err, res) => {
-                if (err) {
-                     throw((res && res.body) || err);
+                if (err || res.statusCode == 500 ) {
+                    throw((res && res.body) || err);
                 } else {
                     dispatch(loadCategoriesSuccess(res.body));
                 }

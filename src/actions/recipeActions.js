@@ -1,6 +1,5 @@
 import * as types from './actionTypes';
 import { appConfig } from '../common/appConfig';
-import recipeApi from '../api/mockRecipeApi';
 import { beginAjaxCall, ajaxCallError } from './ajaxStatusActions';
 import superagent from 'superagent';
 
@@ -45,7 +44,7 @@ export function getRecipeBySlug(slug) {
         superagent
             .get(`${appConfig.apiUrl}/recipes/details/${slug}`)
             .end((err, res) => {
-                if (err) {
+                if (err || res.statusCode == 500) {
                      throw((res && res.body) || err);
                 } else {
                     dispatch(getRecipeSuccess(res.body));
@@ -60,7 +59,7 @@ export function getRecipeById(id) {
         superagent
             .get(`${appConfig.apiUrl}/recipes/${id}`)
             .end((err, res) => {
-                if (err) {
+                if (err || res.statusCode == 500) {
                      throw((res && res.body) || err);
                 } else {
                     dispatch(getRecipeSuccess(res.body));
@@ -77,7 +76,7 @@ export function deleteRecipe(id) {
             superagent
                 .del(`${appConfig.apiUrl}/recipes/${id}`)
                 .end((err, res) => {
-                    if (err) {
+                    if (err || res.statusCode == 500) {
                         reject((res && res.body) || err);
                         throw((res && res.body) || err);
                     } else {
@@ -91,7 +90,7 @@ export function deleteRecipe(id) {
 
 export function saveRecipe(recipe) {
     return function(dispatch, getState) {
-        dispatch(beginAjaxCall());
+        //dispatch(beginAjaxCall());
         return new Promise((resolve, reject) => {
             if(recipe.id) {
                  superagent
@@ -99,7 +98,7 @@ export function saveRecipe(recipe) {
                     .set('Content-Type', 'application/json')
                     .send(recipe)
                     .end((err, res) => {
-                        if (err) {
+                        if (err || res.statusCode == 500) {
                             reject((res && res.body) || err);
                             throw((res && res.body) || err);
                         } else {
@@ -114,12 +113,22 @@ export function saveRecipe(recipe) {
                     .set('Content-Type', 'application/json')
                     .send(recipe)
                     .end((err, res) => {
-                        if (err) {
-                            reject((res && res.body) || err);
+                        if (err || res.statusCode == 500) {
+                           // dispatch(ajaxCallError());
+                            reject((res.body && res.body.data) || err);
                             throw((res && res.body) || err);
                         } else {
-                            dispatch(createRecipeSuccess(res.body.data));
-                            resolve(res.body.data);
+                            if(res.body.status == 'failure') {
+                                console.log("entro failure");
+                                console.log(res.body.data);
+                                dispatch(ajaxCallError());
+                                reject(res.body.data);
+                            }
+                            else {
+                                console.log("entro success");
+                                dispatch(createRecipeSuccess(res.body.data));
+                                resolve(res.body.data);
+                            }
                         }
                     });
             }
@@ -135,7 +144,7 @@ export function rateRecipe(ratedRecipe) {
                 .set('Content-Type', 'application/json')
                 .send(ratedRecipe)
                 .end((err, res) => {
-                    if (err) {
+                    if (err || res.statusCode == 500) {
                         reject((res && res.body) || err);
                         throw((res && res.body) || err);
                     } else {
@@ -155,7 +164,7 @@ export function commentRecipe(comment) {
                 .set('Content-Type', 'application/json')
                 .send(comment)
                 .end((err, res) => {
-                    if (err) {
+                    if (err || res.statusCode == 500) {
                         reject((res && res.body) || err);
                         throw((res && res.body) || err);
                     } else {
@@ -176,12 +185,12 @@ export function deleteComment(recipeId, commentId) {
                 .set('Content-Type', 'application/json')
                 .send(comment)
                 .end((err, res) => {
-                    if (err) {
+                    if (err || res.statusCode == 500) {
                         reject((res && res.body) || err);
                         throw((res && res.body) || err);
                     } else {
                        // dispatch(updateRecipeSuccess(res.body.data));
-                        resolve(res.body.data);
+                        resolve(commentId);
                     }
                 });
         });

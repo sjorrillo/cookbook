@@ -1,19 +1,19 @@
-import {category} from './controllers/category';
-import {recipe} from './controllers/recipe';
+import { category } from './controllers/category.controller';
+import { recipe } from './controllers/recipe.controller';
 
-export const routes = (app, router, db) => {
+export const routes = (router, session) => {
     const route = (handler) => {
-        return handler(db);
+        return handler(session);
     };
 
     // Category
     const categoryController = route(category);
-    router.route('/categories').get(categoryController.list);
+    router.route('/categories').get(categoryController.getAll);
 
     // Recipe
     const recipeController = route(recipe);
     router.route('/recipes')
-        .get(recipeController.list)
+        .get(recipeController.getAll)
         .post(recipeController.addRecipe);
 
     router.route('/recipes/:id')

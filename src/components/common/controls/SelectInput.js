@@ -19,6 +19,7 @@ export const SelectInput = ({name, label, onChange, defaultOption, value, error,
           }
       </select>
       <label htmlFor={name}>{label}</label>
+      <div className="error">{error}</div>
     </div>
   );
 };

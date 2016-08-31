@@ -148,7 +148,7 @@ export function rateRecipe(ratedRecipe) {
                         reject((res && res.body) || err);
                         throw((res && res.body) || err);
                     } else {
-                        dispatch(updateRecipeSuccess(res.body.data));
+                        //dispatch(updateRecipeSuccess(res.body.data));
                         resolve(res.body.data);
                     }
                 });

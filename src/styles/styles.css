@@ -111,3 +111,13 @@ h5.header {
     margin-bottom: 6px;
     border-bottom:1px solid #e0e0e0;
 }
+
+/*Validations*/
+.input-field.has-error > input, .input-field.has-error > select, .input-field.has-error > textarea {
+    margin-bottom: 8px;
+}
+
+.input-field .error{
+    font-size: 0.9em;
+    color:#d32f2f; 
+}

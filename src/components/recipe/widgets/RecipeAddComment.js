@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { TextArea } from '../../common/controls/TextArea';
 
-export const RecipeAddComment = ({comment, onAddComment, onChange, saving}) => {    
+export const RecipeAddComment = ({comment, onAddComment, onChange, saving, errors}) => {    
     return (
         <div>
              <form onSubmit={onAddComment}>
@@ -14,6 +14,7 @@ export const RecipeAddComment = ({comment, onAddComment, onChange, saving}) => {
                         value={comment.content}
                         onChange={onChange}
                         wrapperClass="s12"
+                        error={errors.content}
                         showLabel={false}/>
                   </div>
                    <div className="row">
@@ -35,5 +36,6 @@ RecipeAddComment.propTypes = {
     comment: PropTypes.object.isRequired,
     onAddComment: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    saving: PropTypes.bool.isRequired
+    saving: PropTypes.bool.isRequired,
+    errors: PropTypes.object
 };

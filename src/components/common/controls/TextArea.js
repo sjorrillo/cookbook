@@ -14,6 +14,7 @@ export const TextArea = ({name, label, onChange, placeholder, value, error, wrap
             value={value}
             onChange={onChange}/>
           {showLabel && <label htmlFor={name} className="active">{label}</label>}
+          <div className="error">{error}</div>
      </div>
   );
 };

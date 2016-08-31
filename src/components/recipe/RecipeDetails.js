@@ -4,8 +4,9 @@ import { CardTool } from './widgets/CardTool';
 import { Rating } from '../common/controls/Rating'
 import { Link } from 'react-router';
 
-export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating, newComment, onAddComment, onDeleteComment, onChange, saving}) => {
+export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating, newComment, onAddComment, onDeleteComment, onChange, saving, commentErrors}) => {
     const comments = (recipe.commentlist || []).length;
+    const rating = +recipe.rating;
     return (
         <div>
             <div className="card white details">
@@ -34,11 +35,17 @@ export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating, 
                         </div>
                     </div>
                     <div className="rating-section">
-                        <Rating size={20} rating={recipe.rating} raters={recipe.raters} onRatingClick={onRatingClick} showYourRating={showYourRating}/>
+                        <Rating size={20} rating={rating} raters={recipe.raters} onRatingClick={onRatingClick} showYourRating={showYourRating}/>
                     </div>
                 </div>
             </div>
-            {recipe.commentlist && <RecipeComments comments={recipe.commentlist} newComment={newComment} onAddComment={onAddComment} onDeleteComment={onDeleteComment} onChange={onChange} saving={saving}/>}
+            {recipe.commentlist && <RecipeComments comments={recipe.commentlist} 
+                newComment={newComment} 
+                onAddComment={onAddComment} 
+                onDeleteComment={onDeleteComment} 
+                onChange={onChange} 
+                saving={saving}
+                errors={commentErrors}/>}
         </div>
     );
 };
@@ -52,5 +59,6 @@ RecipeDetails.propTypes = {
     onAddComment: PropTypes.func.isRequired, 
     onDeleteComment: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired, 
-    saving: PropTypes.bool.isRequired
+    saving: PropTypes.bool.isRequired,
+    commentErrors: PropTypes.object
 };

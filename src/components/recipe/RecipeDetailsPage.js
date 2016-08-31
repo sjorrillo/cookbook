@@ -53,6 +53,7 @@ export class RecipeDetailsPage extends React.Component {
             savingComment: false,
             showYourRating: false,
             deletingRecipe: false,
+            errors: {},
             deleteSettings: {
                 id: 'confirmationModal',
                 title: 'Delete Comment',
@@ -139,8 +140,13 @@ export class RecipeDetailsPage extends React.Component {
     @autobind
     addComment(event) {
         event.preventDefault();
-        this.setState({ savingComment: true });
         let comment = Object.assign({}, this.state.newComment);
+        if(!this.isCommentValid(comment)) {
+            console.log("Comment is invalid");
+            return;
+        }
+
+        this.setState({ savingComment: true });
         comment.recipeid = this.state.recipe.id;
         this.props.actions.commentRecipe(comment)
             .then((obj) => {
@@ -167,6 +173,7 @@ export class RecipeDetailsPage extends React.Component {
         this.props.actions.deleteComment(this.state.recipe.id, id)
             .then((obj) => {
                 this.deleteCommentFromRecipe(id);
+                toastr.success("Commet deleted");
             })
             .catch(error => {
                 toastr.error(error);
@@ -212,6 +219,19 @@ export class RecipeDetailsPage extends React.Component {
         });
     }
 
+    isCommentValid(comment) {
+        let errors = {};
+        if(!comment.content || comment.content.length == 0) {
+            errors.content = 'The content is required.';
+        }
+        else if(comment.content.length < 4) {
+            errors.content = 'The content must have at least 3 charcaters.';
+        }
+
+        this.setState({errors : errors});
+        return _.isEmpty(errors);
+    }
+
     render() {
         return (
             <div className="row">
@@ -230,6 +250,7 @@ export class RecipeDetailsPage extends React.Component {
                         onDeleteComment={this.confirmDeleteComment}
                         onChange={this.updateCommentState}
                         saving={this.state.savingComment}
+                        commentErrors={this.state.errors}
                         />}
                 </div>
 

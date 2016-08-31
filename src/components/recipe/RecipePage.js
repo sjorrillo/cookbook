@@ -110,8 +110,12 @@ export class RecipePage extends React.Component {
         let record = Object.assign({}, ingredient);
 
         if (index !== -1) {
-            record.entityState = entityState;
-            ingredientList.splice(index, 1, record);
+            if(record.entityState && record.entityState == appTypes.trackState.added) {
+                 ingredientList.splice(index, 1);
+            } else {
+                record.entityState = entityState;
+                ingredientList.splice(index, 1, record);
+            }
         }
 
         recipe.ingredients = ingredientList;
@@ -180,10 +184,15 @@ export class RecipePage extends React.Component {
     @autobind
     saveRecipe(event) {
         event.preventDefault();
-        this.setState({ processing: true });
         let recipe = Object.assign({}, this.state.recipe);
+        if(!this.isValid(recipe)) {
+            console.log("Recipe is invalid");
+            return;
+        }
+
+        this.setState({ processing: true });
         recipe.ingredients = recipe.ingredients.filter((recipe) => recipe.entityState != appTypes.trackState.none);
-        
+
         this.props.actions.saveRecipe(recipe)
             .then(() => this.backToList())
             .catch(error => {
@@ -202,6 +211,31 @@ export class RecipePage extends React.Component {
         this.setState({ processing: false });
         toastr.success('Receipe saved');
         this.context.router.push('/recipes');
+    }
+
+    isValid(recipe) {
+        let errors = {};
+        if(!recipe.name || recipe.name.length == 0) {
+            errors.name = 'The name is required.';
+        }
+        else if(recipe.name.length < 3) {
+            errors.name = 'The name must have at least 3 charcaters.';
+        }
+
+        if((recipe.categoryid || 0) == 0) {
+            errors.categoryid = 'The category is required.';
+        }
+
+        if(!recipe.chef || recipe.chef.length == 0) {
+            errors.chef = 'The chef is required.';
+        }
+
+        if(!recipe.preparation || recipe.preparation.length == 0) {
+            errors.preparation = 'The description is required.';
+        }
+
+        this.setState({errors : errors});
+        return _.isEmpty(errors);
     }
 
     render() {

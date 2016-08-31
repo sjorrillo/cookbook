@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { RecipeAddComment } from './RecipeAddComment';
 
-export const RecipeComments = ({comments, newComment, onAddComment, onDeleteComment, onChange, saving}) => {
+export const RecipeComments = ({comments, newComment, onAddComment, onDeleteComment, onChange, saving, errors}) => {
   return (
         <div className="card white">
             <div className="card-content">
@@ -19,7 +19,7 @@ export const RecipeComments = ({comments, newComment, onAddComment, onDeleteComm
                     </div>
                 )}
                 </div>
-                <RecipeAddComment comment={newComment} onAddComment={onAddComment} onChange={onChange} saving={saving}/>
+                <RecipeAddComment comment={newComment} onAddComment={onAddComment} onChange={onChange} saving={saving} errors={errors}/>
             </div>
         </div>
   );
@@ -31,5 +31,6 @@ RecipeComments.propTypes = {
   onAddComment: PropTypes.func.isRequired, 
   onDeleteComment: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired, 
-  saving: PropTypes.bool.isRequired
+  saving: PropTypes.bool.isRequired,
+  errors: PropTypes.object
 };

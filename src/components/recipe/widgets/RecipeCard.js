@@ -7,6 +7,7 @@ import _ from 'lodash';
 export const RecipeCard = ({recipe, onDelete}) => {
     const content = _.truncate(recipe.preparation, { length: 250 });
     const dropdownId = `dropdown_${recipe.id}`;
+    const rating = +recipe.rating;
 
     return (
         <div className="card white">
@@ -17,7 +18,7 @@ export const RecipeCard = ({recipe, onDelete}) => {
                 </div>
                 <div className="grey-text text-darken-2 description">{content}</div>
                 <div className="rating-section">
-                    <Rating disabled={true} rating={recipe.rating} raters={recipe.raters}/>
+                    <Rating disabled={true} rating={rating} raters={recipe.raters}/>
                 </div>
             </div>
             <div className="card-action grey-text darken-1">

@@ -14,8 +14,8 @@ export const RecipeIngredientList = ({ingredients, onAddIngredient, onRemoveReco
                     key={ingredient.id}
                     ingredient={ingredient}
                     onChange={onUpdateIngredient.bind(this, ingredient.id)}
-                    onAddRecord={onAddIngredient.bind(this, ingredient.id)}
-                    onRemoveRecord={onRemoveRecord.bind(this, ingredient.id)}
+                    onAddRecord={onAddIngredient}
+                    onRemoveRecord={onRemoveRecord}
                     addState={ingredient.entityState == 0}/>
             )}
         </div>

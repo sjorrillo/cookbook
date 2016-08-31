@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { CardTool } from './CardTool';
-import { Rating } from '../../common/controls/Rating'
+import { Rating } from '../../common/controls/Rating';
 import _ from 'lodash';
 
 export const RecipeCard = ({recipe, onDelete}) => {

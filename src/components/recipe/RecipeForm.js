@@ -28,7 +28,7 @@ export const RecipeForm = ({recipe, categories, onSave, onChange, onAddIngredien
                 value={recipe.categoryid}
                 defaultOption="Select Category"
                 options={categories}
-                onChange={onChange} error={errors.category}
+                onChange={onChange}
                 error={errors.categoryid}
                 wrapperClass="s12"/>
 

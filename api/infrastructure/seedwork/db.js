@@ -7,6 +7,6 @@ const initialize = () => {
         dbContext = knex(dbConfig.pg);
     }
     return dbContext;
-}
+};
 
 export const db = initialize();

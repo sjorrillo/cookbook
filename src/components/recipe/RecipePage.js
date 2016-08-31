@@ -77,7 +77,7 @@ export class RecipePage extends React.Component {
     }
 
     applyBehaviours() {
-        $('select').material_select(this.updateRecipeState);
+        //$('select').material_select(this.updateRecipeState);
         
         if(this.state.recipe.ingredients) {
             this.addIngredient(appConfig.maxIngredients);
@@ -86,19 +86,21 @@ export class RecipePage extends React.Component {
 
     @autobind
     updateRecipeState(event) {
-        let value = "";
-        let field = "";
-        if(!event) {
-            field = "categoryid";
-            value = $("select[name='categoryid']").val();
-        }
-        else {
-            value = event.target.value;
-            field = event.target.name;
-        }
-        
+        // let value = "";
+        // let field = "";
+        // console.log("evento");
+        // console.log(event);
+        // if(!event) {
+        //     field = "categoryid";
+        //     value = $("select[name='categoryid']").val();
+        // }
+        // else {
+        //     value = event.target.value;
+        //     
+        // }
+        const field = event.target.name;
         let recipe = this.state.recipe;
-        recipe[field] = value;
+        recipe[field] = event.target.value;
         this.setState({ recipe: recipe });
     }
 
@@ -185,10 +187,7 @@ export class RecipePage extends React.Component {
     saveRecipe(event) {
         event.preventDefault();
         let recipe = Object.assign({}, this.state.recipe);
-        if(!this.isValid(recipe)) {
-            console.log("Recipe is invalid");
-            return;
-        }
+        if(!this.isValid(recipe)) return;
 
         this.setState({ processing: true });
         recipe.ingredients = recipe.ingredients.filter((recipe) => recipe.entityState != appTypes.trackState.none);

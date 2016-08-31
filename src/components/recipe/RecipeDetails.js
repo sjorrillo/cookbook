@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import { RecipeComments } from './widgets/RecipeComments';
+import { RecipeCommentList } from './widgets/RecipeCommentList';
 import { CardTool } from './widgets/CardTool';
-import { Rating } from '../common/controls/Rating'
+import { Rating } from '../common/controls/Rating';
 import { Link } from 'react-router';
 
 export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating, newComment, onAddComment, onDeleteComment, onChange, saving, commentErrors}) => {
@@ -30,7 +30,7 @@ export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating, 
                                 {recipe.ingredients &&
                                     recipe.ingredients.map(ingredient =>
                                         <li key={ingredient.id} className="collection-item">{ingredient.name}<span className="badge">{ingredient.amount}</span></li>
-                                    ) }
+                                    )}
                             </ul>
                         </div>
                     </div>
@@ -39,7 +39,7 @@ export const RecipeDetails = ({recipe, onDelete, onRatingClick, showYourRating, 
                     </div>
                 </div>
             </div>
-            {recipe.commentlist && <RecipeComments comments={recipe.commentlist} 
+            {recipe.commentlist && <RecipeCommentList comments={recipe.commentlist} 
                 newComment={newComment} 
                 onAddComment={onAddComment} 
                 onDeleteComment={onDeleteComment} 

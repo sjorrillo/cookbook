@@ -36,7 +36,7 @@ export class RecipeDetailsPage extends React.Component {
             objectId: PropTypes.oneOfType([
                 PropTypes.number.isRequired,
                 PropTypes.string.isRequired
-            ]),
+            ])
         })
     };
 
@@ -123,7 +123,7 @@ export class RecipeDetailsPage extends React.Component {
 
         this.props.actions.rateRecipe(ratedRecipe)
             .then((obj) => {
-                console.log("termino el rating: " + rating);
+                //console.log("termino el rating: " + rating);
             })
             .catch(error => {
                 toastr.error(error);
@@ -141,10 +141,7 @@ export class RecipeDetailsPage extends React.Component {
     addComment(event) {
         event.preventDefault();
         let comment = Object.assign({}, this.state.newComment);
-        if(!this.isCommentValid(comment)) {
-            console.log("Comment is invalid");
-            return;
-        }
+        if(!this.isCommentValid(comment)) return;
 
         this.setState({ savingComment: true });
         comment.recipeid = this.state.recipe.id;

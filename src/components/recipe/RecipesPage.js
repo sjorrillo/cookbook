@@ -39,7 +39,7 @@ export class RecipesPage extends React.Component {
             objectId: PropTypes.oneOfType([
                 PropTypes.number.isRequired,
                 PropTypes.string.isRequired
-            ]),
+            ])
         })
     };
 
@@ -73,7 +73,7 @@ export class RecipesPage extends React.Component {
             alignment: 'right'
         });
 
-        $('select').material_select(this.updatFilterState);
+       // $('select').material_select(this.updatFilterState);
     }
 
     @autobind

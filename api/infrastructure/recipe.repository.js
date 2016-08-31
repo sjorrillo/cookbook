@@ -78,7 +78,7 @@ const addRecipe = async (recipe) => {
                 name: ingredient.name,
                 amount: ingredient.amount,
                 recipeid: id[0]
-            }
+            };
         }); 
 
         await trx.insert(ingredients).into('ingredient');

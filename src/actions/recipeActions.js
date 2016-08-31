@@ -119,13 +119,10 @@ export function saveRecipe(recipe) {
                             throw((res && res.body) || err);
                         } else {
                             if(res.body.status == 'failure') {
-                                console.log("entro failure");
-                                console.log(res.body.data);
                                 dispatch(ajaxCallError());
                                 reject(res.body.data);
                             }
                             else {
-                                console.log("entro success");
                                 dispatch(createRecipeSuccess(res.body.data));
                                 resolve(res.body.data);
                             }

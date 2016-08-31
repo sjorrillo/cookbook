@@ -12,7 +12,7 @@ export class Rating extends React.Component {
         totalStars: PropTypes.number,
         size: PropTypes.number,
         disabled: PropTypes.bool,
-        showYourRating: PropTypes.bool,
+        showYourRating: PropTypes.bool
     };
 
     static defaultProps = {
@@ -86,10 +86,10 @@ export class Rating extends React.Component {
     }
 
     getSvg(rating) {
-        var stars = [];
-        var fraction = 0;
-        for (var i = 1; i <= this.state.totalStars; i++) {
-            var attrs = {};
+        let stars = [];
+        let fraction = 0;
+        for (let i = 1; i <= this.state.totalStars; i++) {
+            let attrs = {};
             attrs['transform'] = `translate(${(i - 1) * 50}, 0)`;
             attrs['fill'] = this.getFillColor(i, rating);
             if (i - rating < 1) {
@@ -103,7 +103,7 @@ export class Rating extends React.Component {
             );
         }
 
-        var svgStyles = {
+        const svgStyles = {
             width: `${stars.length * this.state.size}px`,
             height: `${this.state.size}px`
         };
@@ -121,7 +121,7 @@ export class Rating extends React.Component {
                 <g>
                     {stars.map((item) => {
                         return item;
-                    }) }
+                    })}
                 </g>
             </svg>
         );
@@ -143,7 +143,7 @@ export class Rating extends React.Component {
             <div className={cf(g('grey-text text-darken-1')) + ' ' + locals.ratingContainer}>
                 <span ref="wrapper">
                     <span className={ratingClass} {...attrs}>
-                        {this.getSvg(rating) }
+                        {this.getSvg(rating)}
                     </span>
                 </span>
                 <span>{caption}</span>

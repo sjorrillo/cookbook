@@ -1,11 +1,11 @@
 {
     "extends": [
-        "eslint:recommended",
-        "plugin:import/errors",
-        "plugin:import/warnings"
+        "eslint:recommended"
     ],
+    "parser": "babel-eslint",
     "plugins": [
-        "react"
+        "react",
+        "import"
     ],
     "parserOptions": {
         "ecmaVersion": 6,
@@ -36,6 +36,9 @@
         "no-underscore-dangle": 0,
         "no-alert": 0,
         "no-lone-blocks": 0,
+        "import/no-duplicates": [0, { "commonjs": true }],
+        "import/no-unresolved": [0, { "commonjs": true }],
+        "import/export": 1,
         "jsx-quotes": 1,
         "react/display-name": [
             1,
@@ -51,7 +54,7 @@
                 ]
             }
         ],
-        "react/jsx-boolean-value": 1,
+        "react/jsx-boolean-value": 0,
         "react/jsx-closing-bracket-location": 0,
         "react/jsx-curly-spacing": 1,
         "react/jsx-indent-props": 0,

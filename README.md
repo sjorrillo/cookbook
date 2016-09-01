@@ -2,6 +2,7 @@
 [![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&maxAge=2592000)](http://twitter.com/SJOrrillo)
 
 This application uses React, Redux, React Router and a variety of other helpful libraries using ES6 and new features of ES7 like async & await.
+
 The purpose of this application is for training and learn how to use good practises and useful tools.
 
 ![Demo][DEMO]

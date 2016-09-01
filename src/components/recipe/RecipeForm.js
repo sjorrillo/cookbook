@@ -31,7 +31,6 @@ export const RecipeForm = ({recipe, categories, onSave, onChange, onAddIngredien
                 onChange={onChange}
                 error={errors.categoryid}
                 wrapperClass="s12"/>
-
             </div>
             <div className="row">
               <TextInput

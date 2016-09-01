@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import { SelectInput } from '../../common/controls/SelectInput';
 
 export const RecipeFilter = ({title, filter, categories, onChange}) => {
     return (
@@ -9,19 +10,14 @@ export const RecipeFilter = ({title, filter, categories, onChange}) => {
             </div>
             <div className="col s6 ">
               <div className="grey-text right-align">
-                   <div className="input-field col s12">
-                       <select
+                  <SelectInput
                           name="category"
+                          label="Category Filter"
                           value={filter}
-                          onChange={onChange}>
-                          <option value="0">All</option>
-                          {categories.map((category) => {
-                            return <option key={category.id} value={category.id}>{category.name}</option>;
-                          })
-                          }
-                      </select>
-                      <label htmlFor="category">Category Filter</label>
-                  </div>
+                          defaultOption="Select Category"
+                          options={categories}
+                          onChange={onChange}
+                          wrapperClass="s12"/>
               </div>
             </div>
           </div>

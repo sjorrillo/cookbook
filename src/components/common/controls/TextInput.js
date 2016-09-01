@@ -16,7 +16,7 @@ export const TextInput = ({name, label, onChange, placeholder, value, error, wra
         value={value}
         onChange={onChange}/>
       <label htmlFor={name} className="active">{label}</label>
-      <div className="error">{error}</div>
+      {error && <div className="error">{error}</div>}
     </div>
   );
 };

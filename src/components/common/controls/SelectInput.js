@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import autobind from 'autobind-decorator';
 
 export class SelectInput extends React.Component {
 
@@ -22,25 +23,29 @@ export class SelectInput extends React.Component {
 
   componentDidMount() {
     this.selectInput = this.refs[this.props.name];
-    this.applyBehaviours();
+    $(this.selectInput).material_select(this.handleOnchange);
+  }
+
+  componentDidUpdate(){
+    $(this.selectInput).material_select(this.handleOnchange);
   }
 
   componentWillUnmount() {
     delete this.selectInput;
   }
 
-  applyBehaviours() {
-    $(this.selectInput).material_select(this.handleOnchange.bind(this));
-  }
-
+  @autobind
   handleOnchange() {
+    if(typeof(this.props.onChange) != "function") return;
+
     const event = {
       target: {
         name: this.props.name,
-        value: this.selectInput.value
+        value: this.selectInput.value,
+        text: this.selectInput.options[this.selectInput.selectedIndex].text
       }
     };
-    
+
     this.props.onChange(event);
   }
 
@@ -50,14 +55,14 @@ export class SelectInput extends React.Component {
     if (error && error.length > 0) {
       wrapperClass += " " + 'has-error';
     }
-
+    
     return (
       <div className={"input-field col " + wrapperClass}>
         <select
           name={name}
           value={value}
           ref={name}
-          onChange={this.handleOnchange}>
+          onChange={onChange}>
           <option value="">{defaultOption}</option>
           {options.map((option) => {
             return <option key={option.value} value={option.value}>{option.text}</option>;
@@ -65,7 +70,7 @@ export class SelectInput extends React.Component {
           }
         </select>
         <label htmlFor={name}>{label}</label>
-        <div className="error">{error}</div>
+        {error && <div className="error">{error}</div>}
       </div>
     );
   }

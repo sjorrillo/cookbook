@@ -8,13 +8,14 @@ import { RecipeCardList } from './widgets/RecipeCardList';
 import { RecipeFilter } from './widgets/RecipeFilter';
 import { LoadingWheel } from '../common/controls/LoadingWheel';
 import { ConfirmDialog } from '../common/controls/ConfirmDialog';
+import { categoriesFormattedForDropdown } from '../../selectors/Dropdown';
 
 import toastr from 'toastr';
 
 const mapStateToPorps = (state, ownProps) => {
     return {
         recipes: state.recipes,
-        categories: state.categories,
+        categories: categoriesFormattedForDropdown(state.categories),
         searchText: state.filter || "",
         loading: state.ajaxCallsInProgress > 0,
         deletingMessage: ""
@@ -72,19 +73,11 @@ export class RecipesPage extends React.Component {
             belowOrigin: true,
             alignment: 'right'
         });
-
-       // $('select').material_select(this.updatFilterState);
     }
 
     @autobind
     updatFilterState(event) {
-        let value = 0;
-        if(!event) {
-            value = parseInt($("select[name='category']").val());
-        }
-        else {
-            value = parseInt(event.target.value);
-        }
+        const value = parseInt(event.target.value);
         this.setState({ categoryId: value });
     }
 

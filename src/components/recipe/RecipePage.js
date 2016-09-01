@@ -6,6 +6,7 @@ import { appTypes } from '../../common/appTypes';
 import { appConfig } from '../../common/appConfig';
 import { HeadTitle } from '../common/HeadTitle';
 import { RecipeForm } from './RecipeForm';
+import { categoriesFormattedForDropdown } from '../../selectors/Dropdown';
 import autobind from 'autobind-decorator';
 import toastr from 'toastr';
 import _ from 'lodash';
@@ -15,17 +16,10 @@ const mapStateToProps = (state, ownProps) => {
     let id = parseInt(ownProps.params.id || 0);
     if(id != 0)
         recipe = state.recipe || {};
-
-    let categories = state.categories.map(category => {
-        return {
-            value: category.id,
-            text: category.name
-        };
-    });
-
+        
     return {
         recipe,
-        categories,
+        categories: categoriesFormattedForDropdown(state.categories),
         loading: state.ajaxCallsInProgress > 0,
         id
     };
@@ -77,8 +71,6 @@ export class RecipePage extends React.Component {
     }
 
     applyBehaviours() {
-        //$('select').material_select(this.updateRecipeState);
-        
         if(this.state.recipe.ingredients) {
             this.addIngredient(appConfig.maxIngredients);
         }
@@ -86,18 +78,6 @@ export class RecipePage extends React.Component {
 
     @autobind
     updateRecipeState(event) {
-        // let value = "";
-        // let field = "";
-        // console.log("evento");
-        // console.log(event);
-        // if(!event) {
-        //     field = "categoryid";
-        //     value = $("select[name='categoryid']").val();
-        // }
-        // else {
-        //     value = event.target.value;
-        //     
-        // }
         const field = event.target.name;
         let recipe = this.state.recipe;
         recipe[field] = event.target.value;

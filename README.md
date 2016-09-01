@@ -1,7 +1,7 @@
 # cookbook
 [![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&maxAge=2592000)](http://twitter.com/SJOrrillo)
 
-This application uses React, Redux, React Router and a variety of other helpful libraries.
+This application uses React, Redux, React Router and a variety of other helpful libraries using ES6 and new features of ES7 like async & await.
 The purpose of this application is for training and learn how to use good practises and useful tools.
 
 ![Demo][DEMO]
@@ -38,7 +38,7 @@ docker-compose up
 
 If you have **pgAdmin** installed, you can connect to the postgres docker container using the following credentials:
 
-```json
+```javascript
 connection: {
             user: 'postgres',
             database: 'cookbook',
@@ -64,3 +64,17 @@ CREATE DATABASE Cookbook;
 
 #To finish execute the **data/init/init-data.sql** file to add some initial data.
 ```
+
+## About
+
+This application has been based on [pluralsight-redux-starter](https://github.com/coryhouse/pluralsight-redux-starter) and includes the following technologies:
+
+* react
+* react-router
+* redux
+* webpack
+* docker
+* knex
+* SuperAgent
+* postgres
+* materialize-css
